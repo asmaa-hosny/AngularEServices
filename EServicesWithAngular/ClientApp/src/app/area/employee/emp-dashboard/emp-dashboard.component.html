@@ -1,0 +1,125 @@
+<div class="main-content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <app-widgetcount [typeCount]="viewModel.followUpCount" [iconName]="'content_copy'"
+                    [classvar]="'card-header-warning'" [title]="'Dashboard.UrgentFollowUp' | translate"
+                    [describtion]="viewModel.updateInfo" [smallIconName]="'access_time'"></app-widgetcount>
+
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <app-widgetcount [typeCount]="viewModel.attendanceGap" [iconName]="'info_outline'" 
+                [title]="'Dashboard.AttendanceGap' | translate"
+                    [classvar]="'card-header-danger'" [describtion]="viewModel.updateInfo"
+                    [title]="'Dashboard.AttendanceGap' | translate" [smallIconName]="'access_time'"></app-widgetcount>
+
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <app-widgetcount [typeCount]="viewModel.checkInTime" [iconName]="'store'"
+                    [title]="'Dashboard.CheckInTime' | translate" [classvar]="'card-header-success'"
+                    [describtion]="viewModel.updateInfo" [smallIconName]="'access_time'"></app-widgetcount>
+
+            </div>
+        </div>
+        <div class="row">
+
+
+            <div class="col-lg-6 col-md-12">
+                <app-task-tab-list [tabListcount]="viewModel.tabcounts" [tabsHeader]="'card-header-primary'"
+                    [sizeArray]="viewModel.sizeEserviceArray"  [title]="'Dashboard.EServices' | translate" [tabIconList]="viewModel.tabIconListEservices"
+                    [tabNameList]="viewModel.tabEserviceNameList" [tab1ColList]="viewModel.tabcolEserviceList"
+                    [tabSourceList]="viewModel.tabEserviceSourceList" [tab1DisplayAction]="false"></app-task-tab-list>
+
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title"> {{'Dashboard.Schedule' | translate }}</h4>
+                        <p class="card-category">The following is the schedule of your comming meetings</p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <p-fullCalendar [events]="viewModel.events" [options]="viewModel.options"></p-fullCalendar>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title"> {{'Dashboard.TeamAvilability' | translate }}</h4>
+                        <p class="card-category">The table shows all requests for employees under your supervision
+                        </p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <app-widgettablistbase [colList]="viewModel.teamColumns" [list]="viewModel.teamSchedule" [displayAction]="false">
+                        </app-widgettablistbase>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <app-task-tab-list [tabListcount]="viewModel.tabcounts" [title]= "'Dashboard.Tasks' | translate" [tabsHeader]="'card-header-primary'"
+                    [sizeArray]="viewModel.sizeArray" [tabIconList]="viewModel.tabIconListTasks" [tabNameList]="viewModel.tabNameList"
+                    [tab1ColList]="viewModel.tabColList" [tabSourceList]="viewModel.tabSourceList" [tab1DisplayAction]="false">
+                </app-task-tab-list>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title"> {{'Dashboard.POInvoices' | translate }}</h4>
+                        <p class="card-category">The table shows all purshase orders for employees
+                        </p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <app-widgettablistbase [colList]="viewModel.poInvoicesColumns" [list]="viewModel.poInvoices"
+                            [displayAction]="false">
+                        </app-widgettablistbase>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title"> {{'Dashboard.PurchaseOrder' | translate }}</h4>
+                        <p class="card-category">The table shows all PurchaseOrder for current employee
+                        </p>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <app-widgettablistbase [colList]="viewModel.poColumns" [list]="viewModel.pos"
+                            [displayAction]="false">
+                        </app-widgettablistbase>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <app-widgetcount [typeCount]="viewModel.pending" [iconName]="'content_copy'" [classvar]="'card-header-warning'"
+                    [title]="'Dashboard.PendingRequests' | translate " [describtion]="viewModel.updateInfo" [smallIconName]="'access_time'">
+                </app-widgetcount>
+
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <app-widgetcount [typeCount]="viewModel.leaveBalance" [iconName]="'content_copy'" [title]="'Dashboard.LeaveBalance' | translate "
+                    [classvar]="'card-header-success'" [describtion]="viewModel.updateInfo" [smallIconName]="'access_time'">
+                </app-widgetcount>
+
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <app-widgetcount [typeCount]="viewModel.nextPrayingTime" [iconName]="'info_outline'" [title]="'Dashboard.NextPrayingTime' | translate "
+                    [classvar]="'card-header-danger'" [describtion]="viewModel.updateInfo" [smallIconName]="'access_time'">
+                </app-widgetcount>
+            </div>
+        </div>
+
+    </div>
+</div>

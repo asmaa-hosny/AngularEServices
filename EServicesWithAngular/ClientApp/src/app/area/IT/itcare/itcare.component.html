@@ -1,0 +1,191 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+      <div class="row">
+
+
+        <div class="col-lg-12 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-tabs card-header-primary">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <span class="nav-tabs-title"></span>
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null)">
+                        <i class="material-icons">account_box</i> {{'Text.EmployeeDetails' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#request" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null)">
+                        <i class="material-icons">library_books</i> {{'Text.RequestDetails' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#attachment" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==3" (click)="changeTab(3,null)">
+                        <i class="material-icons">library_books</i> {{'Text.Attachment' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                  <profile-data [employee]="baseEmployee" *ngIf="baseEmployee">
+                  </profile-data>
+                </div>
+                <div class="tab-pane active" id="request" [class.active]="viewModel.tabnumber==2">
+                  <form #formReq="ngForm" novalidate>
+                    <div class="card">
+                      <div class="card-header">
+
+                      </div>
+                      <div class="card-body table-responsive">
+                       
+                        <div class="form-row">
+                          <!-- subject -->
+                          <div class="col-md-4  ">
+                            <label class="customlabel">{{'Text.Subject' | translate}}</label>
+                            <input type="text" class="form-control" [(ngModel)]="viewModel.item.domainModel.subject"
+                              name="subject" #subject="ngModel" requiredIf editableIf [itemfields]="viewModel.fields" />
+                            <span class="invalid-feedbackCS"
+                              *ngIf="(viewModel.submitRequestForm && subject.invalid) || (subject.touched && subject.invalid)">{{'Validation.Required' | translate}}</span>
+
+                          </div>
+                          <div class="col-md-4 offset-md-2 col-md-offset-2" id="itCareCategory-ar">
+                            <label class="customlabel">{{'Text.Category' | translate}}</label>
+                            <p-dropdown class="customddl" #category="ngModel" [options]="viewModel.categories"
+                              [(ngModel)]="viewModel.selectedCategory" name="category" optionLabel="name" (onChange)="selectCategory($event.value)"
+                              [placeholder]="'Text.Select' | translate" requiredIf editableIf filter="true" [readonly] ="viewModel.isERP === 'true'"
+                              [itemfields]="viewModel.fields">
+                            </p-dropdown>
+                            <span class="invalid-feedbackCS"
+                              *ngIf="(viewModel.submitRequestForm && category && category.invalid) || (category && category.touched && category.invalid)">{{'Validation.Required' | translate}}</span>
+
+                          </div>
+                        
+
+                        </div>
+
+                        <div class="form-row">
+                           <!-- Description -->
+                            <div class="col-md-4">
+                              <label  class="customlabel">{{'Text.Describtion' | translate}}</label>
+                              <textarea rows="9" id="itcareDesc" pInputTextarea class="form-control"
+                              [(ngModel)]="viewModel.item.domainModel.description" name="description"
+                                #description="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"></textarea>
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && description.invalid) || (description.touched && description.invalid)">{{'Validation.Required' | translate}}</span>
+                            </div> 
+                            <!-- SubCategory -->
+                            <div class="col-md-4 offset-md-2 col-md-offset-2">
+                              <label class="customlabel">{{'Text.SubCategory' | translate}}</label>
+                              <p-dropdown class="customddl" #subcategory="ngModel" [options]="viewModel.subcategories" (onChange)="selectSubCategory($event.value)"
+                                [(ngModel)]="viewModel.selectedSubCategory" name="subcategory" optionLabel="name" filter="true"
+                                [placeholder]="'Text.Select' | translate" requiredIf editableIf
+                                [itemfields]="viewModel.fields">
+                              </p-dropdown>
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && subcategory && subcategory.invalid) || (subcategory && subcategory.touched && subcategory.invalid)">{{'Validation.Required' | translate}}</span>
+                            </div>
+
+                            <!-- item -->
+                            <div class="col-md-4 offset-md-6 col-md-offset-6"  [ngClass]="(viewModel.isERP =='false')? 'withitem' : 'withoutitem' " >
+                              <label class="customlabel">{{'Text.Item' | translate}}</label>
+                              <p-dropdown class="customddl" #item="ngModel" [options]="viewModel.items"
+                                [(ngModel)]="viewModel.selectedItem" name="item" optionLabel="name"
+                                [placeholder]="'Text.Select' | translate" requiredIf editableIf
+                                [itemfields]="viewModel.fields">
+                              </p-dropdown>
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && item && item.invalid) || (item && item.touched && item.invalid)">{{'Validation.Required' | translate}}</span>
+  
+                            </div>
+                        </div>
+                        <div class="form-row">                       
+                          <!-- office -->
+                          <div class="col-md-2 offset-md-6 col-md-offset-6"  [ngClass]="(viewModel.isERP =='false')?'officeWithitem':'officewithoutitem'" >
+                            <label class="customlabel">{{'Text.OfficeLocation' | translate}}</label>
+                            <input type="text" class="form-control" [(ngModel)]="viewModel.item.domainModel.udf_fields.udf_sline_906"
+                              name="udf_fields" #udffields="ngModel" requiredIf editableIf
+                              [itemfields]="viewModel.fields" />
+                            <span class="invalid-feedbackCS"
+                              *ngIf="(viewModel.submitRequestForm && udffields.invalid) || (udffields.touched && udffields.invalid)">{{'Validation.Required' | translate}}</span>
+
+                          </div>
+                         </div>
+                       
+
+                        <div class="col-md-12 col-xs-12 ">
+                          <div class="nextbutton">
+
+                            <button class="btn btn-primary btn-sm btnColor iconArrow" type="button"
+                              (click)="changeTab(3,formReq)">{{'Button.Next' | translate}}</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="tab-pane active" id="attachment" [class.active]="viewModel.tabnumber==3">
+                  <div class="card">
+                    <div class="card-header ">
+
+                    </div>
+                    <div class="card-body table-responsive">
+                      <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                          <span class="invalid-feedbackCS"
+                            *ngIf="(viewModel.submitRequestForm && !viewModel.isRequiredAttachementIsValid)">{{'Validation.AttachementRequired' | translate}}</span>
+
+                          <p-fileUpload mt-lg-auto #uploadAttachment name="fileUploader[]" customUpload="true"
+                            chooseLabel="{{'Text.Choosefile' |translate}}"  cancelLabel="{{'Text.CancelFile' | translate}}"
+                            (onRemove)="onRemove($event)" (onClear)="clear()" (onSelect)="onUpload($event)"
+                            multiple="multiple" [accept]="viewModel.allowedAttachmentExtensions"
+                            [maxFileSize]="viewModel.allowedFileSize"
+                            invalidFileTypeMessageSummary="{{'Validation.InvalidAttachmentExtenstionSummary' | translate}}"
+                            invalidFileTypeMessageDetail="{{'Validation.InvalidAttachmentExtenstionDetail' | translate}}">
+                            <ng-template pTemplate="content">
+
+                            </ng-template>
+                          </p-fileUpload><br>
+
+
+
+                          <div class="col-md-12 col-xs-12 ">
+
+                            <div class="nextbutton">
+                              <button class="btn btn-primary btn-sm btnColor" type="button" *ngIf="viewModel.isNewMode"
+                                (click)="submit(requestForm)">{{'Button.Finish' | translate}}<i class="material-icons">
+                                  save_alt
+                                </i></button></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+
+  </div>
+
+
+</div>

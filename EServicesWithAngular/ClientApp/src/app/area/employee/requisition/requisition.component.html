@@ -1,0 +1,638 @@
+<div class="main-content" id="print-section">
+    <div class="container-fluid">
+        <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+            <div class="row">
+
+
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-tabs card-header-primary">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <span class="nav-tabs-title"></span>
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#empProfile"
+                                                [class.active]="viewModel.tabnumber==1" data-toggle="tab"
+                                                (click)="changeTab(1,null)">
+                                                <i
+                                                    class="material-icons">account_box</i>{{'Text.EmployeeDetails' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" [class.active]="viewModel.tabnumber==2"
+                                                href="#request" data-toggle="tab" (click)="changeTab(2,null)">
+                                                <i
+                                                    class="material-icons">library_books</i>{{'Text.RequisitionRequest' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" [class.active]="viewModel.tabnumber==3"
+                                                href="#vendors" (click)="changeTab(3,null)" data-toggle="tab">
+                                                <i class="material-icons">how_to_reg</i> {{'Text.Vendors' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#attachement"
+                                                [class.active]="viewModel.tabnumber==4" data-toggle="tab"
+                                                (click)="changeTab(4,null)">
+                                                <i
+                                                    class="material-icons">attach_file</i>{{'Text.Attachement' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#financial"
+                                                *ngIf="viewModel.isFinanceRole" [class.active]="viewModel.tabnumber==5"
+                                                data-toggle="tab" (click)="changeTab(5,null)">
+                                                <i class="material-icons">receipt</i>{{'Text.Financial' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#procurement"
+                                                *ngIf="viewModel.isProcurementRole"
+                                                [class.active]="viewModel.tabnumber==6" data-toggle="tab"
+                                                (click)="changeTab(6,null)">
+                                                <i class="material-icons">receipt</i>{{'Text.Procurement' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="viewModel.jobId && !viewModel.isNewMode">
+                                            <a mat-button class="nav-link" href="#workflowHistory"
+                                                [class.active]="viewModel.tabnumber==7" data-toggle="tab"
+                                                (click)="changeTab(7,null)">
+                                                <i
+                                                    class="material-icons">history</i>{{'Text.WorkflowHistory' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+
+                                    <profile-data [employee]="viewModel">
+                                    </profile-data>
+
+                                </div>
+                                <div class="tab-pane " id="request" [class.active]="viewModel.tabnumber==2">
+                                    <form #formReq="ngForm" novalidate>
+                                        <div class="card">
+                                            <div class="card-header ">
+
+                                            </div>
+                                            <div class="card-body table-responsive">
+                                                <div class="form-row">
+                                                    <div class="col-md-4" *ngIf="viewModel.item.domainModel.reF_ID">
+                                                        <label
+                                                            class="customlabel">{{'Text.RefrenceID' | translate}}</label>
+
+                                                        <input type="text" class="form-control" class="form-control"
+                                                            maxlength="50"
+                                                            [(ngModel)]="viewModel.item.domainModel.reF_ID" disabled
+                                                            name="refrenceID" #refrenceID="ngModel" read-only />
+
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-md-4">
+                                                        <label
+                                                            class="customlabel">{{'Text.ProjectName' | translate}}</label>
+                                                        <input type="text"
+                                                            class="form-control bmd-label-static hdnPrint"
+                                                            maxlength="50"
+                                                            [(ngModel)]="viewModel.item.domainModel.projectName"
+                                                            name="projectName" #projectName="ngModel" requiredIf
+                                                            editableIf [itemfields]="viewModel.fields" />
+
+                                                        <label
+                                                            class="visPrint">{{viewModel.item.domainModel.projectName}}</label>
+                                                        <span
+                                                            *ngIf="(viewModel.submitRequestForm && projectName.invalid && projectName.errors?.pattern) || (projectName.touched && projectName.invalid && projectName.errors?.pattern)"
+                                                            class="invalid-feedbackCS">{{'Validation.InvalidData' | translate}}</span>
+                                                        <span
+                                                            *ngIf="(viewModel.submitRequestForm && projectName.invalid && projectName.errors?.required) || (projectName.touched && projectName.invalid && projectName.errors?.required)"
+                                                            class="invalid-feedbackCS">{{'Validation.Required' | translate}}</span>
+
+                                                    </div>
+
+                                                    <div class="col-md-4 offset-md-2 col-md-offset-2">
+                                                        <label
+                                                            class="customlabel">{{'Text.EstimatedCost' | translate}}</label>
+                                                        <input type="text" class="form-control" maxlength="50" required
+                                                            [(ngModel)]="viewModel.item.domainModel.estimatedCost"
+                                                            name="estimatedCost" #estimatedCost="ngModel" requiredIf
+                                                            editableIf [itemfields]="viewModel.fields"
+                                                            [customMin]="1" />
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && estimatedCost.errors?.customMin) || (estimatedCost.touched && estimatedCost.errors?.customMin)">{{'Validation.MinimumRequired' | translate}}</span>
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && estimatedCost.invalid && estimatedCost.errors?.required) || (estimatedCost.touched && estimatedCost.invalid && estimatedCost.errors?.required)">{{'Validation.Required' | translate}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col-md-4">
+                                                        <label
+                                                            class="customlabel">{{'Text.StartDate' | translate}}</label>
+                                                        <p-calendar tabindex="29" [ngModel]="viewModel.startDateValue"
+                                                            [showIcon]="true" #startDate="ngModel" name="startDate"
+                                                            [dateFormat]="viewModel.calendarFormat"
+                                                            [readonlyInput]="false" showButtonBar="true" class="cal"
+                                                            inputStyleClass="calinput" requiredIf editableIf
+                                                            [itemfields]="viewModel.fields" [disabled]="false"
+                                                            [locale]="localizationService.isEnglish ? utilityService.calendarEnglishLocale : utilityService.calendarArabicLocale">
+                                                        </p-calendar>
+
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && startDate.invalid) || (startDate.touched && startDate.invalid)">{{'Validation.Required' | translate}}</span>
+                                                    </div>
+                                                    <div class="col-md-4 offset-md-2 col-md-offset-2 ">
+                                                        <label
+                                                            class="customlabel">{{'Text.EndDate' | translate}}</label>
+                                                        <p-calendar tabindex="29" [ngModel]="viewModel.endDateValue"
+                                                            [showIcon]="true" #endDate="ngModel" name="endDate"
+                                                            [dateFormat]="viewModel.calendarFormat"
+                                                            [readonlyInput]="false" showButtonBar="true" class="cal"
+                                                            inputStyleClass="calinput" requiredIf editableIf
+                                                            [itemfields]="viewModel.fields"
+                                                            [locale]="localizationService.isEnglish ? utilityService.calendarEnglishLocale : utilityService.calendarArabicLocale">
+                                                        </p-calendar>
+
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && endDate.invalid) || (endDate.touched && endDate.invalid)">{{'Validation.Required' | translate}}</span>
+
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="viewModel.invalidstartDate">{{'Validation.InvalidStartDate' | translate}}</span>
+
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && endDate.errors?.invalid) || (endDate.touched && endDate.errors?.invalid)">{{'Validation.InvalidDate' | translate}}</span>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-row">
+                                                    <div class="col-md-4">
+                                                        <label
+                                                            class="customlabel">{{'Text.ProjectNature' | translate}}</label>
+                                                        <p-dropdown class="customddl" #requisitionNature="ngModel"
+                                                            [options]="viewModel.requisitionNatures"
+                                                            name="requisitionNatureID"
+                                                            (onChange)="onChangeNature($event)"
+                                                            [(ngModel)]="viewModel.selectedNature"
+                                                            placeholder="{{'Text.Select' | translate}}"
+                                                            optionLabel="text" filter="true" requiredIf editableIf
+                                                            [itemfields]="viewModel.fields"></p-dropdown>
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && requisitionNature.invalid) || (requisitionNature.touched && requisitionNature.invalid)">{{'Validation.Required' | translate}}</span>
+                                                    </div>
+
+                                                    <div class="col-md-4  offset-md-2 col-md-offset-2">
+                                                        <label
+                                                            class="customlabel">{{'Text.ProjectType' | translate}}</label>
+                                                        <p-dropdown class="customddl" #projectTypeList="ngModel"
+                                                            [options]="viewModel.projectTypes" name="projectTypeID"
+                                                            [(ngModel)]="viewModel.selectedProjectType"
+                                                            placeholder="{{'Text.Select' | translate}}"
+                                                            optionLabel="text" filter="true" requiredIf editableIf
+                                                            [itemfields]="viewModel.fields"></p-dropdown>
+
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && projectTypeList.invalid) || (projectTypeList.touched && projectTypeList.invalid)">{{'Validation.Required' | translate}}</span>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+                                                <div class="form-row">
+                                                    <div class="col-md-4"
+                                                        *ngIf="this.viewModel.selectedNature && this.viewModel.selectedNature.value == RequisitionNatureEnum.OtherNature">
+                                                        <label
+                                                            class="customlabel">{{'Text.ProjectNatureOtherName' | translate}}</label>
+                                                        <input type="text" class="form-control" class="form-control"
+                                                            maxlength="50"
+                                                            [(ngModel)]="viewModel.item.domainModel.otherNature"
+                                                            name="otherNature" #otherNature="ngModel" />
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="viewModel.submitRequestForm && !viewModel.isValidNature">{{'Validation.Required' | translate}}</span>
+
+                                                    </div>
+                                                    <div class="col-md-4 offset-md-2 col-md-offset-2"
+                                                        [ngClass]="{'offset-md-2': this.viewModel.selectedNature.value == 18}">
+                                                        <label
+                                                            class="customlabel">{{'Text.ProjectPeriodinMonth' | translate}}</label>
+
+                                                        <input type="text" class="form-control" class="form-control"
+                                                            maxlength="50" [customMin]="1"
+                                                            [(ngModel)]="viewModel.item.domainModel.projectPeriodinMonth"
+                                                            requiredIf editableIf [itemfields]="viewModel.fields"
+                                                            name="projectPeriodinMonth" #projectPeriodinMonth="ngModel"
+                                                            only-number />
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && projectPeriodinMonth.errors?.customMin) || (projectPeriodinMonth.touched && projectPeriodinMonth.errors?.customMin)">{{'Validation.MinimumRequired' | translate}}</span>
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.submitRequestForm && projectPeriodinMonth.invalid && projectPeriodinMonth.errors?.required) || (projectPeriodinMonth.touched && projectPeriodinMonth.invalid && projectPeriodinMonth.errors?.required)">{{'Validation.Required' | translate}}</span>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12 col-xs-12 ">
+                                                    <div class="nextbutton">
+
+                                                        <button class="btn btn-primary btn-sm" type="button"
+                                                            (click)="changeTab(3,formReq)">{{'Button.Next' | translate}}<i
+                                                                class="material-icons">
+                                                                navigate_next
+                                                            </i></button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane" id="vendors" [class.active]="viewModel.tabnumber==3">
+
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+
+                                            <div class="card-body table-responsive">
+                                                <form #formVendor="ngForm" novalidate
+                                                    *ngIf="viewModel.canAddEditVendor">
+                                                    <div class="form-row">
+
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.Name' | translate}}</label>
+                                                            <input type="text" class="form-control" maxlength="50"
+                                                                required requiredIf editableIf
+                                                                [itemfields]="viewModel.fields"
+                                                                [(ngModel)]="viewModel.item.vendorName"
+                                                                name="vendors.vendorName" #vendorName="ngModel" />
+                                                            <span *ngIf="(clickAddVendor && vendorName.invalid)"
+                                                                required
+                                                                class="invalid-feedbackCS">{{'Validation.Required' | translate}}</span>
+                                                        </div>
+
+
+                                                        <div class="col-md-4 offset-md-2 col-md-offset-2 ">
+                                                            <label
+                                                                class="customlabel">{{'Text.Phone' | translate}}</label>
+                                                            <input type="text" class="form-control" maxlength="12"
+                                                                required requiredIf editableIf
+                                                                [itemfields]="viewModel.fields"
+                                                                [(ngModel)]="viewModel.item.phoneNo"
+                                                                name="vendors.phoneNo" #phoneNo="ngModel" only-number />
+                                                            <span class="invalid-feedbackCS"
+                                                                *ngIf="(clickAddVendor && phoneNo.invalid)">{{'Validation.Required' | translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.Fax' | translate}}</label>
+                                                            <input type="text" class="form-control" maxlength="8"
+                                                                required requiredIf editableIf
+                                                                [itemfields]="viewModel.fields"
+                                                                [(ngModel)]="viewModel.item.faxNo" name="vendors.faxNo"
+                                                                only-number #faxNo="ngModel" />
+                                                            <span class="invalid-feedbackCS"
+                                                                *ngIf="(clickAddVendor && faxNo.invalid) ">{{'Validation.Required' | translate}}</span>
+                                                        </div>
+
+
+                                                        <div class="col-md-4 offset-md-2 col-md-offset-2 ">
+                                                            <label
+                                                                class="customlabel">{{'Text.Email' | translate}}</label>
+                                                            <input type="text" class="form-control" requiredIf
+                                                                editableIf [itemfields]="viewModel.fields"
+                                                                [(ngModel)]="viewModel.item.eMail" name="vendors.eMail"
+                                                                #eMail="ngModel" [pattern]="viewModel.emailPattern" />
+
+                                                            <span class="invalid-feedbackCS"
+                                                                *ngIf="(clickAddVendor && eMail.errors?.required)">{{'Validation.Required' | translate}}</span>
+                                                            <span class="invalid-feedbackCS"
+                                                                *ngIf="(clickAddVendor && eMail.errors?.pattern)">{{'Validation.InvalidEmail' | translate}}</span>
+                                                        </div>
+                                                        <div class="col-md-2 mt-md-3">
+
+                                                            <button class="btn btn-outline-primary btn-sm" type="button"
+                                                                [disabled]="!formVendor.valid"
+                                                                (click)="addVendor(formVendor)">{{'Button.Add' | translate}}<i
+                                                                    class="material-icons">
+                                                                    insert_comment
+                                                                </i></button>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <br />
+                                                </form>
+                                                <div class="row">
+
+                                                    <div class="col-md-12 col-xs-12">
+                                                        <p-table #vendorsTable
+                                                            [value]="viewModel.item.domainModel.vendors">
+                                                            <ng-template pTemplate="header">
+                                                                <tr>
+                                                                    <!-- <th>{{'Text.Id' | translate}}</th> -->
+                                                                    <th>{{'Text.Name' | translate}}</th>
+                                                                    <th>{{'Text.Phone' | translate}}</th>
+                                                                    <th>{{'Text.Fax' | translate}}</th>
+                                                                    <th>{{'Text.Email' | translate}}</th>
+                                                                    <th *ngIf="viewModel.canAddEditVendor">
+                                                                        {{'Text.Action' | translate}}</th>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                                                                <tr class="myTableRow">
+                                                                    <!-- <td >{{item.id}}</td> -->
+                                                                    <td>{{item.vendorName}}</td>
+                                                                    <td>{{item.phoneNo}}</td>
+                                                                    <td>{{item.faxNo}}</td>
+                                                                    <td>{{item.eMail}}</td>
+
+                                                                    <td *ngIf="viewModel.canAddEditVendor">
+                                                                        <a (click)="deleteVendor(i)"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            title="delete"><i
+                                                                                class="fa fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="emptymessage">
+                                                                <div style="width: 300px">
+
+                                                                    {{'Message.Empty' | translate}}
+                                                                </div>
+                                                            </ng-template>
+                                                        </p-table>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 ">
+
+                                                        <div class="nextbutton">
+                                                            <button class="btn btn-primary btn-sm offset-md-10"
+                                                                type="button"
+                                                                (click)="changeTab(4,null)">{{'Button.Next' | translate}}<i
+                                                                    class="material-icons">
+                                                                    navigate_next
+                                                                </i></button></div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="tab-pane" id="attachement" [class.active]="viewModel.tabnumber==4">
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <span class="invalid-feedbackCS"
+                                                        *ngIf="(viewModel.submitRequestForm && !viewModel.isRequiredAttachementIsValid)">{{'Validation.AllAttachementRequired' | translate}}</span>
+
+                                                    <app-attachement [viewModel]="viewModel"></app-attachement>
+
+                                                    <div class="col-md-12 col-xs-12 ">
+
+                                                        <div class="nextbutton">
+                                                            <button class="btn btn-primary btn-sm" type="button"
+                                                                *ngIf="viewModel.isNewMode"
+                                                                (click)="submit(formReq)">{{'Button.Finish' | translate}}<i
+                                                                    class="material-icons">
+                                                                    save_alt
+                                                                </i></button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane" id="financial" [class.active]="viewModel.tabnumber==5"
+                                    *ngIf="viewModel.isFinanceRole">
+                                    <form #formfinancial="ngForm" novalidate>
+                                        <div class="card">
+                                            <div class="card-header ">
+
+                                            </div>
+                                            <div class="card-body table-responsive">
+                                                <div class="form-row ">
+                                                    <div class="form-group col-md-4">
+
+                                                        <label class="customlabel">{{'Text.Account' | translate}}
+                                                        </label>
+                                                        <p-dropdown class="customddl" #accountList="ngModel"
+                                                            [options]="viewModel.accounts" name="accountID"
+                                                            (onChange)="onChangeAccountId($event,form)"
+                                                            [(ngModel)]="viewModel.selectedAccount"
+                                                            placeholder="{{'Text.Select' | translate}}"
+                                                            optionLabel="text" filter="true" requiredIf editableIf
+                                                            [itemfields]="viewModel.fields">
+                                                        </p-dropdown>
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(accountList.touched && accountList.invalid) || (!formfinancial.valid)">{{'Validation.Required' | translate}}</span>
+
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="viewModel.item.requisitionBudget">
+                                                    <div class="form-row ">
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.AllYearsBudget' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.allyearsbudget}}</p>
+
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.OrginalBudgetAmount' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.originalbudgetamt}}
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.TotalBudget' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.totalBudget}}
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-row ">
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.ActualAmount' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.actualAmt}}</p>
+
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.NotIssuedAmount' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.notissuedamt}}
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.TotalCommitment' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.totalCommitment}}
+                                                            </p>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.OpenCommitment' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.opencommitment}}</p>
+
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label
+                                                                class="customlabel">{{'Text.RemainingBudget' | translate}}</label>
+                                                            <p class="form-control-static">
+                                                                {{viewModel.item.requisitionBudget.remBudget}}
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                <div class="tab-pane" id="procurement" [class.active]="viewModel.tabnumber==6"
+                                    *ngIf="viewModel.isProcurementRole">
+                                    <form #formProcurement="ngForm" novalidate>
+                                        <div class="card">
+                                            <div class="card-header ">
+
+                                            </div>
+                                            <div class="card-body table-responsive">
+                                                <div class="form-row ">
+                                                    <div class="form-group col-md-4">
+
+                                                        <label
+                                                            class="customlabel">{{'Text.RequisitionType' | translate}}</label>
+                                                        <p-dropdown class="customddl" #requisitionTypeID="ngModel"
+                                                            [options]="viewModel.requisitionTypes"
+                                                            name="requisitionTypeID"
+                                                            [(ngModel)]="viewModel.selectedRequisitionType"
+                                                            placeholder="{{'Text.Select' | translate}}"
+                                                            (onChange)="onChangerequisitionType($event)"
+                                                            placeholder="{{'Text.Select' | translate}}"
+                                                            optionLabel="text" filter="true" requiredIf editableIf
+                                                            [itemfields]="viewModel.fields">
+                                                        </p-dropdown>
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(viewModel.requisitionTypeID && requisitionTypeID.invalid) || (requisitionTypeID.touched && requisitionTypeID.invalid)">{{'Validation.Required' | translate}}</span>
+
+                                                    </div>
+
+
+                                                    <div class="col-md-4 offset-md-2 col-md-offset-2 "
+                                                        *ngIf="viewModel.isProcurementRole && this.viewModel.selectedRequisitionType && this.viewModel.selectedRequisitionType.value == 'T'">
+                                                        <label
+                                                            class="customlabel">{{'Text.DocumentsPrice' | translate}}</label>
+                                                        <input type="text" class="form-control bmd-label-static"
+                                                            maxlength="50"
+                                                            [(ngModel)]="viewModel.item.domainModel.documentsPrice"
+                                                            name="documentsPrice" #documentsPrice="ngModel" required
+                                                            editableIf [itemfields]="viewModel.fields" />
+
+                                                        <span class="invalid-feedbackCS"
+                                                            *ngIf="(documentsPrice.touched && documentsPrice.invalid) ||(!formProcurement.valid)">{{'Validation.Required' | translate}}</span>
+                                                    </div>
+
+
+
+
+
+                                                </div>
+                                                <div class="col-md-12 col-xs-12 ">
+                                                    <div class="nextbutton">
+
+                                                        <button class="btn btn-primary btn-sm"
+                                                            printTitle="Pring requisition" [useExistingCss]="true"
+                                                            printSectionId="print-section" ngxPrint>
+                                                            {{'Button.Print' | translate}}
+                                                            <i class="material-icons">
+                                                                print
+                                                            </i></button></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div *ngIf="viewModel.jobId" class="tab-pane" id="workflowHistory"
+                                    [class.active]="viewModel.tabnumber==7">
+                                    <app-workflow-history [jobID]="viewModel.jobId">
+                                    </app-workflow-history>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </form>
+        <app-workflow-decisions *ngIf="viewModel.jobId && viewModel.item && viewModel.item.decisions"
+            [decisions]="viewModel.item?.decisions" [viewModel]="viewModel">
+        </app-workflow-decisions>
+
+
+    </div>
+
+</div>

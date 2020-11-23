@@ -1,0 +1,264 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <form #wqForm="ngForm" class="needs-validation" name="wqForm" novalidate>
+      <div class="row">
+
+
+        <div class="col-lg-12 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-tabs card-header-primary">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <span class="nav-tabs-title"></span>
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null)">
+                        <i class="material-icons">account_box</i> {{'Text.EmployeeDetails' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#pending" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null)">
+                        <i class="material-icons">library_books</i> {{'Text.PendingRequests' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#myRequests" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==3" (click)="changeTab(3,null)">
+                        <i class="material-icons">library_books</i> {{'Text.MyRequests' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#itCare" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==4" (click)="changeTab(4,null)">
+                        <i class="material-icons">library_books</i> {{'Text.ITCare' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                  <profile-data [employee]="baseEmployee" *ngIf="baseEmployee">
+                  </profile-data>
+                </div>
+                <div class="tab-pane active" id="pending" [class.active]="viewModel.tabnumber==2">
+                  <div class="card">
+                    <div class="card-header ">
+
+                    </div>
+                    <div class="card-body table-responsive">
+                      <div class="col-md-12 col-xs-12">
+
+                        <p-table #dtPendingList [columns]="viewModel.colPendingList" [globalFilterFields]="viewModel.colName"
+                          [value]="viewModel.pendingList" [paginator]="true" [rows]="viewModel.pageSize">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                              <input type="text" pInputText size="50" placeholder="Global Filter"
+                                (input)="dtPendingList.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns">
+                                {{'Text.'+ col.label | translate}}
+                              </th>
+                            </tr>
+                            <tr>
+                              <th *ngFor="let col of columns">
+                                <input pInputText type="text" class="gridFilterbox"
+                                  (input)="dtPendingList.filter($event.target.value, col.name, 'contains')">
+
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td *ngFor="let col of columns">
+                                <a class="nav-link" *ngIf="col.name=='reF_ID' && rowData[col.name]" 
+                                  (click)="navigateTo(rowData)" data-toggle="tooltip"  data-placement="top">
+                                  {{rowData[col.name]}}</a>
+                                  
+                                <span *ngIf="col.name!='reF_ID' && rowData[col.name]"> {{rowData[col.name]}}</span>
+                                
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane active" id="myRequests" [class.active]="viewModel.tabnumber==3">
+                  <div class="card">
+                    <div class="card-header ">
+
+                    </div>
+                    <div class="card-body table-responsive">
+
+                      <div class="col-md-12 col-xs-12">
+
+                        <p-table #dtMyRequests [columns]="viewModel.colRequestsName"
+                          [globalFilterFields]="viewModel.colNameMyrequests" [paginator]="true"  [lazy]="true"
+                          (onLazyLoad)="loadData($event)"  [rows]="viewModel.pageSize"
+                          [rowsPerPageOptions]="viewModel.rowsPerPageOptions" [value]="viewModel.myrequestsList"
+                          [responsive]="true">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                              <input type="text" pInputText size="50" placeholder="Global Filter"
+                                (input)="dtMyRequests.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+
+                              <th *ngFor="let col of columns" [pSortableColumn]="col.name">
+                                {{'Text.'+ col.label | translate}}
+                                <p-sortIcon [field]="col.name" ariaLabel="Activate to sort"
+                                  ariaLabelDesc="Activate to sort in descending order"
+                                  ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                              </th>
+                            </tr>
+                            <tr>
+                              <th *ngFor="let col of columns">
+                                <input pInputText type="text" class="gridFilterbox"
+                                  (input)="dtMyRequests.filter($event.target.value, col.name, 'contains')">
+
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+
+                              <td *ngFor="let col of columns">
+                              
+                                <a class="nav-link" *ngIf="col.name=='reF_ID' && rowData[col.name]" (click)="navigateTo(rowData,true)" data-toggle="tooltip" data-placement="top">
+                               {{rowData[col.name]}}</a>
+                                <span
+                                  *ngIf="col.name!='reF_ID' && col.name.toLowerCase()==='created'|| col.name.toLowerCase().includes('date') || col.name.toLowerCase().includes('from') || col.name.toLowerCase().includes('to') ">{{utilityService.convertToLocalDate(rowData[col.name], false) }}</span>
+                                <span
+                                  *ngIf="col.name!='reF_ID'&&  col.name.toLowerCase()!='created' && !col.name.toLowerCase().includes('date') && !col.name.toLowerCase().includes('from') && !col.name.toLowerCase().includes('to') ">{{rowData[col.name]}}</span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage">
+                            <div style="width: 300px">
+                              {{'Message.Empty' | translate}}
+                            </div>
+                          </ng-template>
+                        </p-table>
+
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tab-pane active" id="itCare" [class.active]="viewModel.tabnumber==4">
+                  <div class="card">
+                    <div class="card-header ">
+
+                    </div>
+                    <div class="card-body table-responsive">
+
+                      <div class="col-md-12 col-xs-12">
+
+                        <p-table #dtItCare [columns]="viewModel.colItCare" [globalFilterFields]="viewModel.colItCareName"
+                          [paginator]="true" [paginator]="true" [rows]="viewModel.pageSize"
+                          [rowsPerPageOptions]="viewModel.rowsPerPageOptions" [value]="viewModel.itcareList" [responsive]="true">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                              <input type="text" pInputText size="50" placeholder="Global Filter"
+                                (input)="dtItCare.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+
+                              <th *ngFor="let col of columns" [pSortableColumn]="col.name">
+                                {{'Text.'+ col.label | translate}}
+                                <p-sortIcon [field]="col.name" ariaLabel="Activate to sort"
+                                  ariaLabelDesc="Activate to sort in descending order"
+                                  ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                              </th>
+                              <th>{{'Text.Describtion' | translate}}</th>
+                            </tr>
+                            <tr>
+                              <th *ngFor="let col of columns">
+                                <input pInputText type="text" class="gridFilterbox"
+                                  (input)="dtItCare.filter($event.target.value, col.name, 'contains')">
+
+                              </th>
+                              <th></th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+
+                              <td *ngFor="let col of columns">
+                                <span
+                                  *ngIf="col.name.toLowerCase()==='created'|| col.name.toLowerCase().includes('date') || col.name.toLowerCase().includes('from') || col.name.toLowerCase().includes('to') ">{{utilityService.convertToLocalDate(rowData[col.name], false) }}</span>
+                                <span
+                                  *ngIf="col.name.toLowerCase()!='created' && !col.name.toLowerCase().includes('date') && !col.name.toLowerCase().includes('from') && !col.name.toLowerCase().includes('to') ">{{rowData[col.name]}}</span>
+                              </td>
+                              <td><button class="btn btn-primary btn-sm btnColor" type="button"  (click)="MoreDetails(rowData)">{{'Button.MoreDetails' | translate}}</button></td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage">
+                            <div style="width: 300px">
+                              {{'Message.Empty' | translate}}
+                            </div>
+                          </ng-template>
+                        </p-table>
+                        
+                        <p-dialog header="Description" [(visible)]="viewModel.showMoreDeatils" [modal]="true" [responsive]="true"
+                        [style]="{width: '500px', minWidth: '250px'}" [closable]="false"[minY]="900" [maximizable]="true" [baseZIndex]="10000">
+                        <label class="customlabel">{{'Text.Describtion' | translate}}</label>
+                        <textarea rows="7" class="form-control" *ngIf="viewModel.selectedItCareCol" type="text" name="componentName" > {{viewModel.selectedItCareCol.short_description}}</textarea>
+                        
+                       
+                          
+                        <p-footer >
+                                 <button type="button" pButton icon="pi pi-close" (click)="close()" label="Close"
+                              class="ui-button-secondary"></button> 
+                                
+                            </p-footer>  
+                        </p-dialog>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+
+  </div>
+
+
+</div>

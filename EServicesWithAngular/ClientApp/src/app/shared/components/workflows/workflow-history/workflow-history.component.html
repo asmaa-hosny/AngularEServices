@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header ">
+    <h4 class="card-title"> {{'Text.WorkflowHistory' | translate }}</h4>
+  
+  </div>
+  <div class="card-body table-responsive">
+    <p-table [value]="historyRecords" *ngIf="historyRecords">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{'Text.Role' | translate }}</th>
+          <th>{{'Text.Name' | translate }}</th>
+          <th>{{'Text.Date' | translate }}</th>
+          <th>{{'Text.Action' | translate }}</th>
+          <th>{{'Text.Comment' | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{item.activityName}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.date |date}}</td>
+          <td>{{item.action}}</td>
+          <td>{{item.comment}}</td>
+
+        </tr>
+     
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+          <div style="width: 300px">
+
+            {{'Message.Empty' | translate}}
+          </div>
+        </ng-template>
+    </p-table>
+
+  </div>
+</div>

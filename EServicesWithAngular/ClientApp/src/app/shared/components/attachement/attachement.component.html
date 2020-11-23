@@ -1,0 +1,110 @@
+<p-table [value]="viewModel.attachementtypes" *ngIf="viewModel.isNewMode" class="uploadDiv">
+  <ng-template pTemplate="header">
+    <tr>
+
+      <th>{{'Text.File' | translate}}</th>
+      <th>{{'Text.Type' | translate}}</th>
+      <th>{{'Text.Action' | translate}}</th>
+
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-type let-i="rowIndex">
+    <tr>
+
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input type="hidden" name="files" ngModel requiredIf editableIf [itemfields]="viewModel.fields"
+              [groupName]="type.fieldName" (ngModelChange)="viewModel[type.fieldName].displayName = !!$event"
+              #files="ngModel" />
+            <p-fileUpload mode="basic" [ngClass]="{'w-100': true}" name="browseList[]" customUpload="true" ml-md-1 requiredIf
+              [groupName]="type.fieldName" [itemfields]="viewModel.fields" multiple="multiple"
+              [accept]="viewModel.allowedAttachmentExtensions" [maxFileSize]="viewModel.allowedFileSize"
+              (onSelect)="onBasicUpload($event,i,type.fieldName)">
+            </p-fileUpload>
+            <span class="invalid-feedbackCS"
+              *ngIf=" (viewModel.submitRequestForm && files.errors?.required)">{{'Validation.Required' | translate}}</span>
+          </ng-template>
+          <ng-template pTemplate="output">
+
+            <span [innerHTML]="viewModel[type.fieldName]?.displayName"
+              *ngIf="viewModel[type.fieldName]?.displayName">{{viewModel[type.fieldName]?.displayName}}</span>
+
+
+            <div class="uploadDiv">
+              <span *ngIf="!viewModel[type.fieldName]?.displayName" style="display:inline;">{{'Text.ClickToUpload'| translate}} </span>
+              <span class="invalid-feedbackCS" style="display:inline;"
+                *ngIf="this.utilityService.isRequiredField(viewModel.attachementtypes,type.fieldName) && !viewModel[type.fieldName]?.displayName">*</span>
+
+            </div>
+
+
+          </ng-template>
+
+        </p-cellEditor>
+      </td>
+
+      <td> {{'Text.'+type.fieldName| translate}}</td>
+      <td>
+        <a (click)="deleteAttachement(i,type.fieldName)" data-toggle="tooltip" data-placement="top" title="delete"><i
+            class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<br>
+
+<p-table *ngIf="!viewModel.isNewMode" [value]="viewModel.attachementtypes" class="uploadDiv">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{'Text.BrowseMore' | translate}}</th>
+      <th>{{'Text.Name' | translate}}</th>
+      <th>{{'Text.Type' | translate}}</th>
+      <th>{{'Text.Action' | translate}}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-type let-i="rowIndex">
+    <tr>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+
+            <p-fileUpload mode="basic" [ngClass]="{'w-100': true}" name="browseList[]" customUpload="true" ml-md-1 requiredIf
+              [groupName]="type.fieldName" [itemfields]="viewModel.fields" multiple="multiple"
+              [accept]="viewModel.allowedAttachmentExtensions" [maxFileSize]="viewModel.allowedFileSize"
+              (onSelect)="onBasicUpload($event,i,type.fieldName)">
+            </p-fileUpload>
+          
+          </ng-template>
+          <ng-template pTemplate="output">
+
+        
+              <span [innerHTML]="['Text.'+viewModel[type.fieldName]?.displayName | translate]"
+              *ngIf="viewModel[type.fieldName]?.displayName"></span>
+
+            <div  >
+              <span *ngIf="!viewModel[type.fieldName]?.displayName" style="display:inline;">{{'Text.ClickToUpload' | translate}}</span>
+              <span class="invalid-feedbackCS" style="display:inline;"
+                *ngIf="this.utilityService.isRequiredField(viewModel.attachementtypes,type.fieldName) && !viewModel[type.fieldName]?.displayName">*</span>
+            </div>
+
+
+          </ng-template>
+
+        </p-cellEditor>
+      </td>
+      <td><a href="{{item.fileAbsolutePath}}" *ngFor="let item of viewModel.attachementData | filter:type.fieldName"
+          target="_blank">{{item.fileName}}<br /></a>
+      </td>
+      <td>{{'Text.'+type.fieldName| translate}}</td>
+
+      <td>
+        <a (click)="deleteAttachement(i,type.fieldName)" data-toggle="tooltip" data-placement="top" title="delete"><i
+            class="fa fa-trash"></i></a>
+      </td>
+
+
+    </tr>
+  </ng-template>
+</p-table>

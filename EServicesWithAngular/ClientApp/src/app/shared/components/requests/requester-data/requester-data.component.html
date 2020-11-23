@@ -1,0 +1,86 @@
+
+  <div class="card">
+    <div class="card-header ">
+
+    </div>
+    <div class="card-body table-responsive">
+        <div class="form-row">
+            <div class="form-group col-md-4" *ngIf="employee.employeeNameAr">
+                <label class="customlabel">{{'Text.EmployeeName' | translate}}</label>
+                <!-- <p *ngIf="isEnglish" class="form-control-static">
+                    {{employee.employeeNameEn}}</p> -->
+                <p  class="form-control-static">
+                    {{employee.employeeNameAr}}</p>
+
+            </div>
+            <div class="form-group col-md-4" *ngIf="employee.kacareId">
+                <label class="customlabel">{{'Text.EmployeeID' | translate}}</label>
+                <p class="form-control-static">
+                    {{employee.kacareId}}</p>
+
+            </div>
+            <div class="form-group col-md-4" *ngIf="employee.email" >
+                <label class="customlabel">{{'Text.Email' | translate}}</label>
+                <p class="form-control-static">{{employee.email}}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group col-md-4" *ngIf="employee.supervisorNameAr">
+                <label for="inputPassword4">{{'Text.Manager' | translate}}</label>
+                <!-- <p *ngIf="isEnglish" class="form-control-static">
+                    {{employee.supervisorNameEn}}</p> -->
+                <p  class="form-control-static">
+                    {{employee.supervisorNameAr}}</p>
+            </div>
+
+
+
+            <div class="form-group col-md-4" *ngIf="employee.departmentAr">
+                <label class="customlabel">{{'Text.Department' | translate}}</label>
+                <!-- <p *ngIf="isEnglish" class="form-control-static">
+                    {{employee.departmentEn}}</p> -->
+
+                <p  class="form-control-static">
+                    {{employee.departmentAr}}</p>
+
+            </div>
+            <div class="form-group col-md-4"  *ngIf="employee.departmentManagerAr">
+                <label class="customlabel">{{'Text.DepartmentManager' | translate}}</label>
+
+                <!-- <p *ngIf="isEnglish" class="form-control-static">
+                    {{employee.departmentManagerEn}}</p> -->
+                <p  class="form-control-static">
+                    {{employee.departmentManagerAr}}</p>
+
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4" *ngIf="employee.JobTitleAr">
+                <label class="customlabel">{{'Text.JobTitle' | translate}}</label>
+                <!-- <p *ngIf="isEnglish" class="form-control-static">
+                    {{employee.JobTitleEn}}</p> -->
+                <p  class="form-control-static">
+                    {{employee.JobTitleAr}}</p>
+            </div>
+            <div class="form-group col-md-4" *ngIf="employee.grade">
+                <label class="customlabel">{{'Text.Grade' | translate}}</label>
+                <p class="form-control-static">{{employee.grade}}</p>
+            </div>
+            <div class="form-group col-md-4" *ngIf="employee.hireDate">
+                <label class="customlabel">{{'Text.HireDate' | translate}}</label>
+                <p class="form-control-static">{{employee.hireDate | date}}</p>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</div>

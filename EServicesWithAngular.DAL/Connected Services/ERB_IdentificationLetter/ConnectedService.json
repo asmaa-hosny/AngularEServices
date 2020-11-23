@@ -1,0 +1,21 @@
+﻿{
+  "ProviderId": "Microsoft.VisualStudio.ConnectedService.Wcf",
+  "Version": "15.0.30207.1173",
+  "GettingStartedDocument": {
+    "Uri": "https://go.microsoft.com/fwlink/?linkid=858517"
+  },
+  "ExtendedData": {
+    "inputs": [
+      "http://ruhd0i1ws002:8011/hri/LetterRequestService?wsdl"
+    ],
+    "collectionTypes": [
+      "System.Collections.Generic.Dictionary`2",
+      "System.Collections.Generic.List`1"
+    ],
+    "namespaceMappings": [
+      "*, ECHO_IdentificationLetter"
+    ],
+    "targetFramework": "netcoreapp2.2",
+    "typeReuseMode": "All"
+  }
+}

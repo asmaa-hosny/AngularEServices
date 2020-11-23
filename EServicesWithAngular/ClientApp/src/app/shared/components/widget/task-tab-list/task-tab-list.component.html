@@ -1,0 +1,33 @@
+<div class="card">
+    <div class="card-header card-header-tabs  {{tabsHeader}}">
+        <div class="nav-tabs-navigation">
+            <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title"></span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li *ngFor="let tab of tabIconList;let i = index" class="nav-item">
+
+                        <a [class.active]="i==0" mat-button class="nav-link active" href="#{{title}}tab{{i}}" data-toggle="tab">
+                            <i class="material-icons">{{tabIconList[i]}}</i>  {{tabNameList[i] | translate }}
+                           
+                            <small class="notification-badge" *ngIf="sizeArray">{{sizeArray[i]}}</small>
+                           
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" >
+            <div class="tab-pane" *ngFor="let tab of tabIconList;let i = index;" id="{{title}}tab{{i}}"
+                [class.active]="i==0">
+
+                <app-widgettablistbase  [colList]="tab1ColList[i].colList" *ngIf="tabSourceList && tabSourceList[i] && tabSourceList[i].listName && tab1ColList"  [list]="tabSourceList[i].listName"
+                    [displayAction]="tab1DisplayAction">
+                </app-widgettablistbase>
+                
+            </div>
+
+        </div>
+    </div>
+</div>

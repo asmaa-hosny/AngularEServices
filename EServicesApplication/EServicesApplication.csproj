@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EServicesCommon\EServicesCommon.csproj" />
+    <ProjectReference Include="..\EservicesDomain\EservicesDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <HintPath>..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.viewfeatures\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Portable">
+      <HintPath>..\EServicesWithAngular\Libraries\Microsoft.SharePoint.Client.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime.Portable">
+      <HintPath>..\EServicesWithAngular\Libraries\Microsoft.SharePoint.Client.Runtime.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime.Windows">
+      <HintPath>..\EServicesWithAngular\Libraries\Microsoft.SharePoint.Client.Runtime.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="SharePointHelpClasses">
+      <HintPath>..\..\SharepointHelper\SharePointHelpClasses\bin\Debug\SharePointHelpClasses.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

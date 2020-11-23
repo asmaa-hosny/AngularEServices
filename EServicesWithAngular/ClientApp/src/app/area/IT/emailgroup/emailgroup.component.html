@@ -1,0 +1,230 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+        <div class="row">
+  
+  
+          <div class="col-lg-12 col-md-12">
+            <div class="card">
+              <div class="card-header card-header-tabs card-header-primary">
+                <div class="nav-tabs-navigation">
+                  <div class="nav-tabs-wrapper">
+                    <span class="nav-tabs-title"></span>
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                      <li class="nav-item">
+                        <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null)">
+                          <i class="material-icons">account_box</i> {{'Text.EmployeeDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#request" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null)">
+                          <i class="material-icons">library_books</i> {{'Text.RequestDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+
+                      </li>
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#requestMember" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==3" (click)="changeTab(3,null)">
+                          <i class="material-icons">library_books</i> {{'Text.Members' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+           
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#createUser" data-toggle="tab"
+                          *ngIf="viewModel.item.createUser" [class.active]="viewModel.tabnumber==4"
+                          (click)="changeTab(4,null)">
+                          <i class="material-icons">library_books</i> {{'Text.CreateUser' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link" *ngIf="!viewModel.isNewMode"
+                          href="#workflowHistory" [class.active]="viewModel.tabnumber==5" data-toggle="tab"
+                          (click)="changeTab(5,null)">
+                          <i class="material-icons">history</i> {{'Text.WorkflowHistory' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+  
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                    <profile-data [employee]="baseEmployee" *ngIf="baseEmployee">
+                    </profile-data>
+                  </div>
+                  <div class="tab-pane active" id="request" [class.active]="viewModel.tabnumber==2">
+                    <form #formReq="ngForm" novalidate>
+                      <div class="card">
+                        <div class="card-header">
+  
+                        </div>
+                        <div class="card-body table-responsive">
+                            <div class="form-row">
+                              <div class="col-md-4  ">
+                                <label class="customlabel">{{'Text.EmailName' | translate}}</label>
+                                <textarea pInputTextarea class="form-control"
+                                  [(ngModel)]="viewModel.item.domainModel.emailName" name="emailName"
+                                  #emailName="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"></textarea>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && emailName.invalid) || (emailName.touched && emailName.invalid)">{{'Validation.Required' | translate}}</span>
+                              </div></div>
+                     
+                          <div class="form-row">
+                            <div class="col-md-4  ">
+                              <label class="customlabel">{{'Text.justification' | translate}}</label>
+                              <textarea pInputTextarea class="form-control"
+                                [(ngModel)]="viewModel.item.domainModel.justification" name="justification"
+                                #justification="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"></textarea>
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && justification.invalid) || (justification.touched && justification.invalid)">{{'Validation.Required' | translate}}</span>
+                            </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2">
+  
+                              <label class="customlabel">{{'Text.Note' | translate}}</label>
+                              <textarea pInputTextarea class="form-control"  [(ngModel)]="viewModel.item.domainModel.notes"
+                                name="notes" #notes="ngModel" requiredIf editableIf
+                                [itemfields]="viewModel.fields"></textarea>
+  
+  
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && notes.invalid) || (notes.touched && notes.invalid)">{{'Validation.Required' | translate}}</span>
+  
+                            </div>
+  
+  
+  
+                          </div>
+                         
+                          
+                          <div class="form-row">
+                            <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="viewModel.item.domainModel.refId">
+                              <label class="customlabel">{{'Text.RefrenceID' | translate}}</label>
+  
+                              <input type="text" class="form-control" class="form-control" maxlength="50"
+                                [(ngModel)]="viewModel.item.domainModel.refId" disabled name="refrenceID"
+                                #refrenceID="ngModel" read-only />
+  
+                            </div>
+                          </div>
+  
+                          <div class="col-md-12 col-xs-12 ">
+                            <div class="nextbutton">
+  
+                              <button class="btn btn-primary btn-sm btnColor iconArrow" type="button"
+                                (click)="changeTab(3,formReq)">{{'Button.Next' | translate}}</button>
+                            </div>
+                          </div>
+                        </div>
+                   
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane active" id="requestMember" [class.active]="viewModel.tabnumber==3">
+                    <div class="card">
+                      <div class="card-header ">
+                      </div>
+                      <div class="card-body table-responsive">
+                        <p-table #serverdetailsitemsTable class="table-responsive" [value]="viewModel.groupMembersItems">
+                         <ng-template pTemplate="header">
+                           <tr>  
+                             <th>{{'Text.MemberEmail' | translate}}</th>
+                             <th>{{'Text.View' | translate}}</th>
+                             <th *ngIf="viewModel.isNewMode"> {{'Text.Delete' | translate}}</th>
+                           </tr>
+                         </ng-template> 
+                         <ng-template pTemplate="body" let-this.viewModel.groupMembersItems let-i="rowIndex">
+                           <tr>
+                             <td>{{this.viewModel.groupMembersItems[i].memberEmail}}</td>
+                         
+                             <td> 
+                             <button class="btn btn-primary btn-sm btnColor" type="button"
+                             (click)="view(i)">{{'Button.View' | translate}}</button>
+                            </td>
+                            <td *ngIf="viewModel.isNewMode">
+                            <button class="btn btn-primary btn-sm btnColor" type="button"
+                            (click)="delete(i)">{{'Button.Delete' | translate}}</button>
+                            </td>
+                            </tr>
+                         </ng-template>
+                         <ng-template pTemplate="emptymessage">
+                           <div style="width: 300px">
+
+                               {{'Message.Empty' | translate}}
+                           </div>
+                       </ng-template>
+                         </p-table>
+                         </div>
+
+                      <div class="card-body table-responsive">
+                        <div class="row">
+                          <div class="col-md-12 col-xs-12">
+                            <button class="btn btn-primary btn-sm btnColor" type="button" *ngIf="viewModel.isNewMode"
+                            (click)="showDialogForAddNewMember()">{{'Button.Add' | translate}}</button>
+                            
+                      <div class="col-md-12 col-xs-12 ">
+                        <div class="nextbutton">
+                        
+                               <button class="btn btn-primary btn-sm" (click)="copy()" type="button" *ngIf="viewModel.nodeId == 456" ngxClipboard  >{{'Button.GenerateScriptClipboard' | translate}}</button>
+                          
+
+                          <button class="btn btn-primary btn-sm btnColor" type="button" *ngIf="viewModel.isNewMode"
+                            (click)="submit(requestForm)">{{'Button.Finish' | translate}}<i class="material-icons">
+                              save_alt
+                            </i></button>
+                        </div>
+                      </div>
+                            <p-dialog header="Member Details" [(visible)]="viewModel.showGroupMemberDialog" [modal]="true" [responsive]="true"
+                            [style]="{width: '350px', minWidth: '200px'}" [closable]="false"[minY]="70" [maximizable]="true" [baseZIndex]="10000">
+                            <label class="customlabel">{{'Text.MemberEmail' | translate}}</label>
+                            <input class="form-control" type="text" name="memberEmail" #memberEmail="ngModel" [(ngModel)]="viewModel.groupMembers.memberEmail" [pattern]="viewModel.emailPattern" [disabled]="!viewModel.memberEamilIsEditable"> 
+                            <p-footer >
+                              <span
+                              *ngIf="(viewModel.submitRequestForm && memberEmail.invalid && memberEmail.errors?.pattern) || (memberEmail.touched && memberEmail.invalid && memberEmail.errors?.pattern)"
+                              class="invalid-feedbackCS">{{'Validation.InvalidEmail' | translate}}</span>
+                              
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="viewModel.memberEmailItemExist">{{'Validation.EmailAlreadyExists' | translate}}</span>
+                                    <button *ngIf="(viewModel.isNewMode && !viewModel.showUpdateMember)"class="btn btn-primary btn-sm btnColor" type="button"(click)="addNewMember(requestForm)">{{'Button.Add' | translate}}</button>
+                                    <button type="button" pButton icon="pi pi-close" (click)="cancel()" label="Cancel"
+                                  class="ui-button-secondary"></button>
+                                    
+                                </p-footer>  
+                            </p-dialog>
+                          </div></div></div></div></div>
+  
+                    <div class="tab-pane" id="workflowHistory" [class.active]="viewModel.tabnumber==5" *ngIf="viewModel.item.domainModel.id">
+                      <app-workflow-history [jobID]="viewModel.jobId">
+                      </app-workflow-history>
+                    </div>
+  
+  
+  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          
+      </form>
+      <app-workflow-decisions *ngIf="viewModel.jobId && !viewModel.isNewMode" [viewModel]="viewModel"
+        [decisions]="viewModel.item?.decisions">
+      </app-workflow-decisions>
+    </div>
+  
+  
+  </div>

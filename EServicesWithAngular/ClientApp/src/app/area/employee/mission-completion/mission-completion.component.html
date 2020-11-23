@@ -1,0 +1,612 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+            <div class="row">
+
+
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-tabs card-header-primary">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <span class="nav-tabs-title"></span>
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                                                [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null)">
+                                                <i class="material-icons">account_box</i>
+                                                {{'Text.EmployeeDetails' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link active" href="#request" data-toggle="tab"
+                                                [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null)">
+                                                <i class="material-icons">library_books</i>
+                                                {{'Text.MissionCompletionRequest' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link active" href="#earlySection"
+                                                *ngIf="viewModel.displayEarlySection" data-toggle="tab"
+                                                [class.active]="viewModel.tabnumber==3" (click)="changeTab(3,null)">
+                                                <i class="material-icons">library_books</i>
+                                                {{'Text.EarlySection' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#requestLines"
+                                                [class.active]="viewModel.tabnumber==4" data-toggle="tab"
+                                                (click)="changeTab(4,null)">
+                                                <i
+                                                    class="material-icons">chrome_reader_mode</i>{{'Text.RequestDetails' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#finance"
+                                                [class.active]="viewModel.tabnumber==5" data-toggle="tab"
+                                                (click)="changeTab(5,null)">
+                                                <i
+                                                    class="material-icons">payment</i>{{'Text.FinanceDetails' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#attachement"
+                                                [class.active]="viewModel.tabnumber==6" data-toggle="tab"
+                                                (click)="changeTab(6,null)">
+                                                <i
+                                                    class="material-icons">attach_file</i>{{'Text.Attachement' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link" href="#payroll"
+                                                *ngIf="viewModel.isPayrollVisible"
+                                                [class.active]="viewModel.tabnumber==7" data-toggle="tab"
+                                                (click)="changeTab(7,null)">
+                                                <i class="material-icons">receipt</i>{{'Text.Payroll' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a mat-button class="nav-link"
+                                                *ngIf="viewModel.jobId && !viewModel.isNewMode" href="#workflowHistory"
+                                                [class.active]="viewModel.tabnumber==8" data-toggle="tab"
+                                                (click)="changeTab(8,null)">
+                                                <i class="material-icons">history</i>
+                                                {{'Text.WorkflowHistory' | translate}}
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                                    <profile-data [employee]="viewModel">
+                                    </profile-data>
+                                </div>
+                                <div class="tab-pane active" id="request" [class.active]="viewModel.tabnumber==2">
+
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+
+                                                    <label class="customlabel">{{'Text.MissionId' | translate}} </label>
+                                                    <p-dropdown class="customddl" #missionList="ngModel"
+                                                        *ngIf="!this.viewModel.jobId" [options]="viewModel.empMissions"
+                                                        name="missionId" (onChange)="onChangeMissionId($event)"
+                                                        [(ngModel)]="viewModel.selectedEmpMission"
+                                                        optionLabel="domainModel.documentType" requiredIf editableIf
+                                                        [itemfields]="viewModel.fields">
+                                                    </p-dropdown>
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        *ngIf="this.viewModel.jobId" maxlength="50"
+                                                        [(ngModel)]="viewModel.item.domainModel.documentType" disabled
+                                                        name="documentType" #documentType="ngModel" read-only />
+
+
+                                                </div>
+                                                <div class="form-group col-md-4"
+                                                    *ngIf="viewModel.item.domainModel.reF_ID && !viewModel.isNewMode">
+                                                    <label class="customlabel">{{'Text.RefrenceID' | translate}}</label>
+
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        maxlength="50" [(ngModel)]="viewModel.item.domainModel.reF_ID"
+                                                        disabled name="refrenceID" #refrenceID="ngModel" read-only />
+                                                </div>
+                                                <div class="form-group col-md-4">
+
+                                                    <label
+                                                        class="customlabel">{{'Text.CompletionDate' | translate}}</label>
+                                                    <p-calendar tabindex="29" [ngModel]="viewModel.completionDateValue"
+                                                        (onInput)="onInputDate($event)" [showIcon]="true"
+                                                        #completionDate="ngModel" (onSelect)="onSelectDate()"
+                                                        name="completionDate" [dateFormat]="viewModel.calendarFormat"
+                                                        [readonlyInput]="false" showButtonBar="true" class="cal"
+                                                        inputStyleClass="calinput" requiredIf editableIf
+                                                        [itemfields]="viewModel.fields" [disabled]="false"
+                                                        [locale]="localizationService.isEnglish ? utilityService.calendarEnglishLocale : utilityService.calendarArabicLocale">
+                                                    </p-calendar>
+
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+
+                                                    <label
+                                                        class="customlabel">{{'Text.MissionType' | translate}}</label>
+                                                    <p class="form-control-static" *ngIf="viewModel.isEnglish">
+                                                        {{viewModel.item.domainModel?.missionTypeEn}}</p>
+                                                    <p class="form-control-static" *ngIf="!viewModel.isEnglish">
+                                                        {{viewModel.item.domainModel?.missionTypeAr}}</p>
+
+
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+
+                                                    <label class="customlabel">{{'Text.StartDate' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.startDateValue}}</p>
+
+                                                </div>
+
+
+                                                <div class="form-group col-md-4">
+
+                                                    <label class="customlabel">{{'Text.EndDate' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.endDateValue}}</p>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row ">
+
+
+
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.TotalAmount' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.item.domainModel?.totalAmount}}</p>
+
+
+                                                </div>
+
+                                                <div class="form-group col-md-4">
+
+                                                    <p-checkbox [(ngModel)]="viewModel.item.domainModel.isReportNeeded"
+                                                        name="isReportNeeded" binary="true"></p-checkbox>
+                                                    <label
+                                                        class="customlabel">{{'Text.MissionDoestNeedCompletionReport' | translate}}</label>
+
+                                                </div>
+
+                                            </div>
+                                            <!-- <div class="form-row ">
+                                               
+                                            </div> -->
+
+                                            <div class="form-row ">
+
+
+
+                                                <div class="form-group col-md-6">
+
+                                                    <label
+                                                        class="customlabel">{{'Text.OtherAllowanceDeductionReason' | translate}}</label>
+                                                    <textarea pInputTextarea class="txtarea"
+                                                        [(ngModel)]="viewModel.item.domainModel.otherDeductionReason"
+                                                        [rows]="5" name="otherDeductionReason" requiredIf editableIf
+                                                        [itemfields]="viewModel.fields" #otherDeductionReason="ngModel"
+                                                        [cols]="30" autoResize="autoResize"></textarea>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 col-xs-12 ">
+                                                <div class="nextbutton">
+                                                    <button class="btn btn-primary btn-sm offset-md-10" type="button"
+                                                        (click)="changeTab(3,null)">{{'Button.Next' | translate}}<i
+                                                            class="material-icons">
+                                                            navigate_next
+                                                        </i></button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane active" id="earlySection" [class.active]="viewModel.tabnumber==3"
+                                    *ngIf="viewModel.displayEarlySection">
+
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+
+                                            <div class="form-row ">
+
+                                                <div class="form-group col-md-4">
+                                                    <label class="customlabel">{{'Text.EarlyDays' | translate}}</label>
+                                                    <input type="text" class="form-control bmd-label-static"
+                                                        maxlength="50"
+                                                        [(ngModel)]="viewModel.item.domainModel.earlyDays"
+                                                        name="earlyDays" #earlyDays="ngModel" disabled />
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+
+                                                    <label
+                                                        class="customlabel">{{'Text.EarlyDaysReason' | translate}}</label>
+                                                    <textarea pInputTextarea class="txtarea"
+                                                        [(ngModel)]="viewModel.item.domainModel.earlyDaysReason"
+                                                        [rows]="5" name="earlyDaysReason" requiredIf editableIf
+                                                        [itemfields]="viewModel.fields" #earlyDaysReason="ngModel"
+                                                        [cols]="30" autoResize="autoResize"></textarea>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-xs-12 ">
+                                                <div class="nextbutton">
+                                                    <button class="btn btn-primary btn-sm offset-md-10" type="button"
+                                                        (click)="changeTab(5,null)">{{'Button.Next' | translate}}<i
+                                                            class="material-icons">
+                                                            navigate_next
+                                                        </i></button></div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="requestLines" [class.active]="viewModel.tabnumber==4">
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <p-table [value]="viewModel.item?.mandateTrainingLines"
+                                                *ngIf="viewModel.item.mandateTrainingLines">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th>{{'Text.LineID' | translate }}</th>
+                                                        <th>{{'Text.Country' | translate }}</th>
+                                                        <th>{{'Text.City' | translate }}</th>
+                                                        <th>{{'Text.From' | translate }}</th>
+                                                        <th>{{'Text.To' | translate }}</th>
+                                                        <th *ngIf="viewModel.item.domainModel?.isMandate">
+                                                            {{'Text.MandateValue' | translate }}</th>
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-item>
+                                                    <tr>
+                                                        <td>{{item.lineID}}</td>
+                                                        <td>{{item.country}}</td>
+                                                        <td>{{item.region }}</td>
+                                                        <td>{{item.tripStartDate | date}}</td>
+                                                        <td>{{item.tripEndDate | date }}</td>
+                                                        <td *ngIf="viewModel.item.domainModel?.isMandate">
+                                                            {{item.mandateValue}}</td>
+
+                                                    </tr>
+
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <div style="width: 300px">
+
+                                                        {{'Message.Empty' | translate}}
+                                                    </div>
+                                                </ng-template>
+                                            </p-table>
+
+                                            <p-table [value]="viewModel.item?.overtimeLines"
+                                                *ngIf="viewModel.item.overtimeLines">
+                                                <ng-template pTemplate="header">
+                                                    <tr>
+                                                        <th>{{'Text.Date' | translate }}</th>
+                                                        <th>{{'Text.Day' | translate }}</th>
+                                                        <th>{{'Text.Hours' | translate }}</th>
+
+                                                    </tr>
+                                                </ng-template>
+                                                <ng-template pTemplate="body" let-item>
+                                                    <tr>
+                                                        <td>{{item.date}}</td>
+                                                        <td>{{item.day}}</td>
+                                                        <td>{{item.hours }}</td>
+                                                    </tr>
+
+                                                </ng-template>
+                                                <ng-template pTemplate="emptymessage">
+                                                    <div style="width: 300px">
+
+                                                        {{'Message.Empty' | translate}}
+                                                    </div>
+                                                </ng-template>
+                                            </p-table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="finance" [class.active]="viewModel.tabnumber==5">
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.TransportationPaymentTotal' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.item.domainModel.transportationPaymentTotal}}
+                                                    </p>
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.AdvancedPaymentTotal' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.item.domainModel.advancedPaymentTotal}}
+                                                    </p>
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.FoodPaymentTotal' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.item.domainModel.foodPaymentTotal}}
+                                                    </p>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.AccomedationPaymentTotal' | translate}}</label>
+                                                    <p class="form-control-static">
+                                                        {{viewModel.item.domainModel.accomedationPaymentTotal}}</p>
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <p-checkbox [(ngModel)]="viewModel.item.domainModel.isFoodProvided"
+                                                        name="isFoodProvided" binary="true" requiredIf editableIf
+                                                        [itemfields]="viewModel.fields"></p-checkbox>
+                                                    <label
+                                                        class="customlabel">{{'Text.IsFoodProvided' | translate}}</label>
+
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <p-checkbox
+                                                        [(ngModel)]="viewModel.item.domainModel.isAccomedatoinProvided"
+                                                        name="isAccomedatoinProvided" binary="true" requiredIf
+                                                        editableIf [itemfields]="viewModel.fields"></p-checkbox>
+                                                    <label
+                                                        class="customlabel">{{'Text.IsAccomedatoinProvided' | translate}}</label>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+                                                    <p-checkbox
+                                                        [(ngModel)]="viewModel.item.domainModel.isTransportationProvided"
+                                                        name="isTransportationProvided" binary="true" requiredIf
+                                                        editableIf [itemfields]="viewModel.fields"></p-checkbox>
+                                                    <label
+                                                        class="customlabel">{{'Text.IsTransportationProvided' | translate}}</label>
+
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <p-checkbox
+                                                        [(ngModel)]="viewModel.item.domainModel.isAdvancedPaymentNeeded"
+                                                        name="isAdvancedPaymentNeeded" binary="true" requiredIf
+                                                        editableIf [itemfields]="viewModel.fields"></p-checkbox>
+                                                    <label
+                                                        class="customlabel">{{'Text.IsAdvancedPaymentNeeded' | translate}}</label>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-xs-12 ">
+                                                <div class="nextbutton">
+
+                                                    <button class="btn btn-primary btn-sm" type="button"
+                                                        (click)="changeTab(6,requestForm)">{{'Button.Next' | translate}}<i
+                                                            class="material-icons">
+                                                            navigate_next
+                                                        </i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="attachement" [class.active]="viewModel.tabnumber==6">
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xs-12">
+                                                    <span class="invalid-feedbackCS"
+                                                        *ngIf="(viewModel.submitRequestForm && !viewModel.isRequiredAttachementIsValid)">{{'Validation.AttachementRequired' | translate}}</span>
+
+                                                    <p-fileUpload mt-lg-auto #uploadAttachment name="demo[]"
+                                                        customUpload="true" (onRemove)="onRemove($event)"
+                                                        (onClear)="clear()" (onSelect)="onBasicUpload($event)"
+                                                        multiple="multiple"
+                                                        [accept]="viewModel.allowedAttachmentExtensions"
+                                                        [maxFileSize]="viewModel.allowedFileSize"
+                                                        invalidFileTypeMessageSummary="{{'Validation.InvalidAttachmentExtenstionSummary' | translate}}"
+                                                        invalidFileTypeMessageDetail="{{'Validation.InvalidAttachmentExtenstionDetail' | translate}}">
+                                                        <ng-template pTemplate="content">
+
+                                                        </ng-template>
+                                                    </p-fileUpload><br>
+
+                                                    <p-table #attachmentsTable *ngIf="!viewModel.isNewMode"
+                                                        (onLazyLoad)="loadAttachmentsData($event)" [lazy]="true"
+                                                        [responsive]="true">
+                                                        <ng-template pTemplate="header">
+                                                            <tr>
+
+                                                                <th>{{'Text.fileName'| translate}}</th>
+                                                                <th>{{'Text.UploaderName'| translate}}</th>
+                                                                <th>{{'Text.UploadDate'| translate}}</th>
+                                                            </tr>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="body" let-item>
+                                                            <tr>
+
+                                                                <td><a href="{{item.path}}"
+                                                                        target="_blank">{{item.fileName}}</a></td>
+                                                                <td>{{item.uploaderName}}</td>
+
+                                                                <td>{{item.uploadDate | date }}</td>
+
+                                                            </tr>
+                                                        </ng-template>
+                                                    </p-table>
+
+                                                    <div class="col-md-12 col-xs-12 ">
+
+                                                        <div class="nextbutton">
+                                                            <button class="btn btn-primary btn-sm" type="button"
+                                                                *ngIf="viewModel.isNewMode"
+                                                                (click)="submit(requestForm)">{{'Button.Finish' | translate}}<i
+                                                                    class="material-icons">
+                                                                    save_alt
+                                                                </i></button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="payroll" [class.active]="viewModel.tabnumber==7"
+                                    *ngIf="viewModel.isPayrollVisible">
+                                    <div class="card">
+                                        <div class="card-header ">
+
+                                        </div>
+                                        <div class="card-body table-responsive">
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.LivingDeductDays' | translate}}</label>
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        maxlength="50" requiredIf editableIf only-number
+                                                        [itemfields]="viewModel.fields"
+                                                        [(ngModel)]="viewModel.item.domainModel.livingDeductDays"
+                                                        name="livingDeductDays" #livingDeductDays="ngModel" />
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.FoodDeductDays' | translate}}</label>
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        maxlength="50" requiredIf editableIf only-number
+                                                        [itemfields]="viewModel.fields"
+                                                        [(ngModel)]="viewModel.item.domainModel.foodDeductDays"
+                                                        name="foodDeductDays" #foodDeductDays="ngModel" />
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.TransDeductDays' | translate}}</label>
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        maxlength="50" requiredIf editableIf only-number
+                                                        [itemfields]="viewModel.fields"
+                                                        [(ngModel)]="viewModel.item.domainModel.transDeductDays"
+                                                        name="transDeductDays" #transDeductDays="ngModel" />
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row ">
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.OtherDeduction' | translate}}</label>
+
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        maxlength="50" requiredIf editableIf only-number
+                                                        [itemfields]="viewModel.fields"
+                                                        [(ngModel)]="viewModel.item.domainModel.otherDeduction"
+                                                        name="otherDeduction" #otherDeduction="ngModel" />
+
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label
+                                                        class="customlabel">{{'Text.OtherAllowance' | translate}}</label>
+                                                    <input type="text" class="form-control" class="form-control"
+                                                        maxlength="50" requiredIf editableIf
+                                                        [itemfields]="viewModel.fields"
+                                                        [(ngModel)]="viewModel.item.domainModel.otherAllowance"
+                                                        name="otherAllowance" #otherAllowance="ngModel" only-number />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-xs-12 ">
+                                                <div class="nextbutton">
+                                                    <button class="btn btn-primary btn-sm offset-md-10" type="button"
+                                                        (click)="recalculate()">{{'Button.RecalculateMission' | translate}}<i
+                                                            class="material-icons">
+                                                            euro_symbol
+                                                        </i></button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="workflowHistory" [class.active]="viewModel.tabnumber==8"
+                                    *ngIf="viewModel.jobId">
+                                    <app-workflow-history [jobID]="viewModel.jobId">
+                                    </app-workflow-history>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+        <app-workflow-decisions *ngIf="viewModel.jobId && !viewModel.isNewMode" [viewModel]="viewModel"
+            [decisions]="viewModel.item?.decisions">
+        </app-workflow-decisions>
+    </div>
+
+
+</div>

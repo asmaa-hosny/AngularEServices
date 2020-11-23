@@ -1,0 +1,520 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+        <div class="row">
+  
+  
+          <div class="col-lg-12 col-md-12">
+            <div class="card">
+              <div class="card-header card-header-tabs card-header-primary">
+                <div class="nav-tabs-navigation">
+                  <div class="nav-tabs-wrapper">
+                    <span class="nav-tabs-title"></span>
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                      <li class="nav-item">
+                        <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null,null)">
+                          <i class="material-icons">account_box</i> {{'Text.EmployeeDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#request" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null,null)">
+                          <i class="material-icons">library_books</i> {{'Text.RequestDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#ConsultantDetails" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==3" (click)="changeTab(3,null,null)">
+                          <i class="material-icons">library_books</i> {{'Text.ConsultantDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#attachment" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==4" (click)="changeTab(4,null,null)">
+                          <i class="material-icons">library_books</i> {{'Text.Attachment' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#requestsHistory" *ngIf="!viewModel.isNewMode" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==5" (click)="changeTab(5,null,null)">
+                          <i class="material-icons">library_books</i> {{'Text.RequestsHistory' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link" *ngIf="!viewModel.isNewMode"
+                          href="#workflowHistory" [class.active]="viewModel.tabnumber==6" data-toggle="tab"
+                          (click)="changeTab(6,null,null)">
+                          <i class="material-icons">history</i> {{'Text.WorkflowHistory' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+  
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                    <profile-data [employee]="baseEmployee" *ngIf="baseEmployee">
+                    </profile-data>
+                  </div>
+                  <div class="tab-pane active" id="request" [class.active]="viewModel.tabnumber==2">
+                    <form #formReq="ngForm" novalidate>
+                      <div class="card">
+                        <div class="card-header">
+  
+                        </div>
+                        <div class="card-body table-responsive">
+                          <div class="form-row">
+                            <div class="col-md-4  ">
+                              <label class="customlabel">{{'Text.ServiceRequired' | translate}}</label>
+                              <textarea pInputTextarea class="form-control"
+                                [(ngModel)]="viewModel.item.domainModel.serviceRequired" name="serviceRequired"
+                                #serviceRequired="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"></textarea>
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && serviceRequired.invalid) ">{{'Validation.Required' | translate}}</span>
+                            </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2">
+                              <label class="customlabel">{{'Text.RequestType' | translate}}</label>
+                              <p-dropdown class="customddl" *ngIf="viewModel.requestsTypes.length" [options]="viewModel.requestsTypes" 
+                                 [(ngModel)]="viewModel.selectedRequestType" name="Rtypes" #Rtypes="ngModel"
+                                optionLabel="text" filter="true" requiredIf 
+                                editableIf [itemfields]="viewModel.fields" [readonly]="!viewModel.isNewMode" [placeholder]="'Text.Select' | translate"></p-dropdown>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.selectedRequestType)">{{'Validation.Required' | translate}}</span>
+                             
+                                
+                            </div>
+  
+                          </div>
+                          <div class="form-row">
+                            <div class="col-md-4  ">
+                                <label class="customlabel">{{'Text.ExpectedDeliverables' | translate}}</label>
+                                <textarea pInputTextarea class="form-control" rows="5" [(ngModel)]="viewModel.item.domainModel.expectedDeliverables"
+                                  name="expectedDeliverables" #expectedDeliverables="ngModel" requiredIf editableIf
+                                  [itemfields]="viewModel.fields"></textarea>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && expectedDeliverables.invalid)">{{'Validation.Required' | translate}}</span>
+                            </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2">
+                              <label class="customlabel">{{'Text.Objective' | translate}}</label>
+                              <textarea pInputTextarea class="form-control" rows="5" [(ngModel)]="viewModel.item.domainModel.objectives"
+                                name="objectives" #objectives="ngModel" requiredIf editableIf
+                                [itemfields]="viewModel.fields"></textarea>
+  
+  
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && objectives.invalid) ">{{'Validation.Required' | translate}}</span>
+                                
+                                  
+                              </div>
+                            </div>
+                        
+                       <div class="form-row">
+                            <div class="col-md-4  ">
+                                <label class="customlabel">{{'Text.DateFrom' | translate}}</label>
+                                <p-calendar tabindex="29" [(ngModel)]="viewModel.startDateValue" [showIcon]="true"
+                                  #startDate="ngModel" name="startDate" [dateFormat]="viewModel.calendarFormat"
+                                  [readonlyInput]="!viewModel.isNewMode" showButtonBar="true" class="cal" inputStyleClass="calinput"
+                                  requiredIf editableIf [itemfields]="viewModel.fields" 
+                                  [locale]="localizationService.isEnglish ? utilityService.calendarEnglishLocale : utilityService.calendarArabicLocale">
+                                </p-calendar>
+      
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.startDateValue)">{{'Validation.Required' | translate}}</span>
+                            </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2">
+                                <label class="customlabel">{{'Text.EndDatecons' | translate}}</label>
+                                <p-calendar tabindex="29" [(ngModel)]="viewModel.endDateValue" [showIcon]="true"
+                                  #endDate="ngModel" name="endDate" [dateFormat]="viewModel.calendarFormat"
+                                  [readonlyInput]="!viewModel.isNewMode" showButtonBar="true" class="cal" inputStyleClass="calinput" 
+                                  requiredIf editableIf [itemfields]="viewModel.fields" (onSelect)="onChangeDateTo($event)"
+                                  [locale]="localizationService.isEnglish ? utilityService.calendarEnglishLocale : utilityService.calendarArabicLocale">
+                                </p-calendar>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.endDateValue)">{{'Validation.Required' | translate}}</span>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.dateExceeded)">{{'Validation.DateExceeded' | translate}}</span>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && endDate.invalid)">{{'Validation.Required' | translate}}</span>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.invalidDate)">{{'Validation.InvalidStartDate' | translate}}</span>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.invalidInterval)">{{'Validation.invalidInterval' | translate}}</span>
+
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="form-row" >
+                          <div class="col-md-4  ">
+                              <label class="customlabel">{{'Text.ResearchTitle' | translate}}</label>
+                              <textarea pInputTextarea class="form-control"
+                                [(ngModel)]="viewModel.item.domainModel.researchTitle" name="researchTitle"
+                                #researchTitle="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"></textarea>
+                              <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && researchTitle.invalid) ">{{'Validation.Required' | translate}}</span>
+                            </div>
+                          <div class="col-md-4 offset-md-2 col-md-offset-2" >
+                            <label class="customlabel">{{'Text.ResearchType' | translate}}</label><br>
+                            
+                            <p-radioButton [(ngModel)]="viewModel.item.domainModel.researchType"  name="ResearchType" value="1" [disabled]="!this.viewModel.isNewMode" #ResearchType="ngModel"
+                              ></p-radioButton>
+                            <label class="customlabel">{{'Text.isSolo' | translate}}</label><br>
+                            
+                            <p-radioButton  [(ngModel)]="viewModel.item.domainModel.researchType" name="ResearchType"  value="2" [disabled]="!this.viewModel.isNewMode" #ResearchType="ngModel" 
+                            ></p-radioButton>
+                             
+                            <label class="customlabel">{{'Text.IsWorkGroup' | translate}}</label>
+                          </div>
+                         
+                        </div>
+                        <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="viewModel.item.domainModel.refId">
+                          <label class="customlabel">{{'Text.RefrenceID' | translate}}</label>
+
+                          <input type="text"  class="form-control" maxlength="50"
+                            [(ngModel)]="viewModel.item.domainModel.refId" disabled name="refrenceID"
+                            #refrenceID="ngModel" read-only />
+                  
+                       </div>
+                  
+                         
+  
+                          <div class="col-md-12 col-xs-12 ">
+                            <div class="nextbutton">
+  
+                              <button class="btn btn-primary btn-sm" type="button"
+                                (click)="changeTab(3,formReq,'form1')">{{'Button.Next' | translate}}<i class="material-icons">
+                                  navigate_next
+                                </i></button>
+                            </div>
+                          </div>
+                       </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane active" id="ConsultantDetails" [class.active]="viewModel.tabnumber==3">
+                    <form #formReq2="ngForm" novalidate>
+                      <div class="card">
+                        <div class="card-header">
+  
+                        </div>
+                        <div class="card-body table-responsive">
+                          <div class="form-row">
+                            <div>
+                              <label class="customlabel">{{'Text.IsConsultantInvolved' | translate}}</label>
+                              <p-checkbox  [(ngModel)]="viewModel.consultantNotinvolvedChecked" name="isConsultantInvolved" 
+                              (onChange)="onChangeConsultantInvolved($event)" [disabled] ="!this.viewModel.isNewMode"
+                                binary="true"></p-checkbox></div></div>
+
+                          <div class="form-row">
+                            <div class="col-md-4" *ngIf="viewModel.isEnglish">
+                              
+                                <label class="customlabel" >{{'Text.universities' | translate}}</label>
+                                <p-dropdown class="customddl"  [options]="viewModel.universities" 
+                                  name="universities" [(ngModel)]="viewModel.selectedUniversity" #universities="ngModel" (onChange)="onChangeUnversity($event)"
+                                  optionLabel="nameEn" filter="true" requiredIf 
+                                  editableIf [itemfields]="viewModel.fields" [readonly]="!viewModel.isNewMode" [placeholder]="'Text.Select' | translate"></p-dropdown>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.selectedUniversity)">{{'Validation.Required' | translate}}</span>
+                            </div>
+
+                            <div class="col-md-4" *ngIf="!viewModel.isEnglish">
+                              
+                              <label class="customlabel" >{{'Text.universities' | translate}}</label>
+                              <p-dropdown class="customddl"  [options]="viewModel.universities" 
+                                name="universities" [(ngModel)]="viewModel.selectedUniversity" #universities="ngModel" (onChange)="onChangeUnversity($event)"
+                                optionLabel="nameAr" filter="true" requiredIf 
+                                editableIf [itemfields]="viewModel.fields" [readonly]="!viewModel.isNewMode" [placeholder]="'Text.Select' | translate"></p-dropdown>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.selectedUniversity)">{{'Validation.Required' | translate}}</span>
+                          </div>
+                          
+
+                            <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="!viewModel.consultantNotinvolvedChecked">
+                                <label class="customlabel"  >{{'Text.consultants' | translate}}</label>
+                                <p-dropdown class="customddl"  [options]="viewModel.consultants" 
+                                  name="consultants" [(ngModel)]="viewModel.selectedConsultant" #consultants="ngModel" (onChange)="onChangeFellow($event)"
+                                  optionLabel="fullName" filter="true" requiredIf 
+                                  editableIf [itemfields]="viewModel.fields" [readonly]="!viewModel.isNewMode" [placeholder]="'Text.Select' | translate"></p-dropdown>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.selectedConsultant)">{{'Validation.Required' | translate}}</span>
+                                  
+                              </div>
+                        </div>
+                       
+                        <div class="form-row">
+                          <div class="col-md-4" *ngIf="!viewModel.consultantNotinvolvedChecked">
+
+                           <label class="customlabel" >{{'Text.areas' | translate}}</label>
+                           <p-dropdown class="customddl"  [options]="viewModel.areas" 
+                             name="areas" [(ngModel)]="viewModel.selectedArea" #areas="ngModel"
+                             optionLabel="name" filter="true" requiredIf 
+                             editableIf [itemfields]="viewModel.fields" [readonly]="!viewModel.isNewMode" [placeholder]="'Text.Select' | translate"></p-dropdown>
+                             <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && !this.viewModel.selectedArea)">{{'Validation.Required' | translate}}</span>
+
+                          </div>
+                          <div class="col-md-4 offset-md-2 col-md-offset-2"  *ngIf="!viewModel.consultantNotinvolvedChecked">
+                          
+                            <label class="customlabel">{{'Text.ConsultantRating' | translate}}</label>
+                           <p-rating calss="p-rating-star" [(ngModel)]="viewModel.rating" name="val" readonly ="true" [cancel]="false"></p-rating>
+
+                          </div>
+                        </div>
+
+                          <div class="form-row" *ngIf="!viewModel.consultantNotinvolvedChecked">
+                            <div class="col-md-4">
+                            <a href="{{this.viewModel.profileURL}}">Read more about the Consultant</a>
+                          </div></div>
+
+                        
+                          <div class="form-row">
+                            <div class="col-md-4">
+                                <label class="customlabel">{{'Text.Duration' | translate}}</label>
+                                <input type="number" class="form-control" [(ngModel)]="viewModel.item.domainModel.duration"
+                                  name="duration" #duration="ngModel" (input)="onChangeDuration($event.target.value)" requiredIf editableIf
+                                  [itemfields]="viewModel.fields"/>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && duration.invalid)">{{'Validation.Required' | translate}}</span>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.durationlimitExceeded)">{{'Validation.DurationExceeded' | translate}}</span>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.isAvailable === false)">{{'Validation.NotAvailable' | translate}}</span>
+                                  <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.remainingDaysExceeded)">{{'Validation.RemainingDaysExceeded' | translate}}</span>
+                            </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2">
+                              <label class="customlabel">{{'Text.EstimatedCost' | translate}}</label>
+                              <strong class="form-control"  class="form-control" name ="estimatedCost"  read-only style="color: gray;">
+                                {{viewModel.estimatedCost}}</strong>
+                              
+                              </div></div>
+                              <div class="form-row">
+
+                                <div class="col-md-4 ">
+                                  <label class="customlabel">{{'Text.DurationNote' | translate}}</label>
+                                  <textarea pInputTextarea class="form-control" [(ngModel)]="viewModel.item.domainModel.durationNote"
+                                    name="durationNote" #durationNote="ngModel" requiredIf editableIf
+                                    [itemfields]="viewModel.fields"></textarea>
+                                  <span class="invalid-feedbackCS"
+                                    *ngIf="(viewModel.submitRequestForm && durationNote.invalid)">{{'Validation.Required' | translate}}</span>
+                                  
+                                </div></div>
+                            <div class="form-row">
+                             <div class="col-md-4" *ngIf="viewModel.consultantNotinvolvedChecked">
+                              <label class="customlabel" >{{'Text.ConsultantName' | translate}}</label>
+                              <input type="text" class="form-control"  [(ngModel)]="viewModel.item.domainModel.consultantName"
+                                name="consultantName" #consultantName="ngModel" requiredIf editableIf
+                                [itemfields]="viewModel.fields"/>
+                                <span class="invalid-feedbackCS"
+                                    *ngIf="(viewModel.submitRequestForm && consultantName && consultantName.invalid )">{{'Validation.Required' | translate}}</span>
+                              
+                             </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="viewModel.consultantNotinvolvedChecked">
+                              <label class="customlabel"  >{{'Text.ContactDetails' | translate}}</label>
+                              <textarea pInputTextarea class="form-control" 
+                                [(ngModel)]="viewModel.item.domainModel.consultantDetails" name="consultantDetails"
+                                #consultantDetails="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"></textarea>
+                                <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && consultantDetails && consultantDetails.invalid)">{{'Validation.Required' | translate}}</span>
+                            </div>
+                          </div>
+                          
+
+                          <div class="form-row">
+                            <div class="col-md-4 " *ngIf="viewModel.consultantNotinvolvedChecked">
+                              <label class="customlabel"  >{{'Text.ConsultantNumber' | translate}}</label>
+                              <input type="text" class="form-control" 
+                                [(ngModel)]="viewModel.item.domainModel.consultantNumber" name="consultantNumber"
+                                #consultantNumber="ngModel" requiredIf editableIf [itemfields]="viewModel.fields"/>
+                                <span class="invalid-feedbackCS"
+                              *ngIf="(viewModel.submitRequestForm && consultantNumber && consultantNumber.invalid)">{{'Validation.Required' | translate}}</span>
+                                
+                              
+                            </div>
+                            <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="viewModel.consultantNotinvolvedChecked">
+                              <label class="customlabel"  >{{'Text.ConsultantEmail' | translate}}</label>
+                              <input type="text"  class="form-control" 
+                                [(ngModel)]="viewModel.item.domainModel.consultantEmail" name="consultantEmail"
+                                #consultantEmail="ngModel" [pattern]="viewModel.emailPattern" 
+                                requiredIf editableIf [itemfields]="viewModel.fields" (input)="CallRating($event.target.value)" />
+                                <span class="invalid-feedbackCS"
+                              *ngIf="(viewModel.submitRequestForm && consultantEmail && consultantEmail.invalid)">{{'Validation.Required' | translate}}</span>
+                                <span class="invalid-feedbackCS"
+                                *ngIf="(viewModel.submitRequestForm && consultantEmail.invalid && consultantEmail.errors?.pattern)">
+                                {{'Validation.InvalidEmail' | translate}}</span>
+                              
+
+                            </div>
+                          </div>
+                          <div class="form-row">
+                           <div class="col-md-4"   *ngIf="viewModel.consultantNotinvolvedChecked">
+                          
+                             <label class="customlabel">{{'Text.ConsultantRating' | translate}}</label>
+                            <p-rating calss="p-rating-star" [(ngModel)]="viewModel.rating" name="val" readonly ="true" [cancel]="false"></p-rating>
+                           </div>
+                         </div>
+
+                            <div class="form-row">
+                              <div>
+                                <label class="customlabel">{{'Text.IsRelation' | translate}}</label>
+                                <p-checkbox  [(ngModel)]="viewModel.item.domainModel.isRelationWCounsultant" name="isRelationWCounsultant" 
+                                 [disabled] ="!this.viewModel.isNewMode"
+                                  binary="true"></p-checkbox>
+                                </div>
+                              </div>
+
+                           
+                                  <div class="form-row" *ngIf="!this.viewModel.isNewMode">
+                                    <div>
+                                      <label class="customlabel">{{'Text.isConfidential' | translate}}</label>
+                                      <p-checkbox  [(ngModel)]="viewModel.item.domainModel.isConfidential" name="isConfidential" 
+                                        binary="true"></p-checkbox>
+                                      </div>
+                                    </div>
+
+                          <div class="col-md-12 col-xs-12 ">
+                            <div class="nextbutton">
+                              <button class="btn btn-primary btn-sm" type="button"
+                              (click)="changeTab(4,formReq2,'form2')">{{'Button.Next' | translate}}<i class="material-icons">
+                                navigate_next
+                              </i></button></div>
+                          </div>
+                      
+                      </div>
+                    </div>
+                  </form>
+                  </div>
+
+                  <div class="tab-pane active" id="attachment" [class.active]="viewModel.tabnumber==4">
+                    <div class="card">
+                      <div class="card-header ">
+
+                      </div>
+                      <div class="card-body table-responsive">
+                        <div class="row">
+                          <div class="col-md-12 col-xs-12">
+                            
+                            
+                            <p-fileUpload  mt-lg-auto #uploadAttachment name="fileUploader[]" customUpload="true"
+                              (onRemove)="onRemove($event)" (onClear)="clear()" (onSelect)="onUpload($event)"
+                              multiple="multiple" 
+                              [maxFileSize]="viewModel.allowedFileSize"> 
+                              
+                              <ng-template pTemplate="content">
+  
+                              </ng-template>                           
+                             
+                            </p-fileUpload><br>
+                            
+                            
+                            <p-table #attachmentsTable *ngIf="!viewModel.isNewMode"
+                              (onLazyLoad)="loadAttachmentsData($event)" [lazy]="true" [responsive]="true">
+                              <ng-template pTemplate="header">
+                                <tr>
+  
+                                  <th>{{'Text.fileName'| translate}}</th>
+                               
+                                  <th>{{'Text.UploadDate'| translate}}</th>
+                                </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-item>
+                                <tr>
+  
+                                  <td><a  (click)="download(item)" target="_blank">{{item.fileName}}</a></td>
+                                 
+  
+                                  <td>{{item.uploadDate | date }}</td>
+  
+                                </tr>
+                              </ng-template>
+                            </p-table>
+  
+                            <div class="col-md-12 col-xs-12 ">
+  
+                              <div class="nextbutton">
+                                <button class="btn btn-primary btn-sm btnColor" type="button" *ngIf="viewModel.isNewMode"
+                                  (click)="submit(requestForm)">{{'Button.Finish' | translate}}<i class="material-icons">
+                                    save_alt
+                                  </i></button></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   </div>
+                   <div class="tab-pane" id="requestsHistory" [class.active]="viewModel.tabnumber==5"  >
+                    <div class="card">
+                      <div class="card-header">
+                      </div>
+                      <div class="card-body table-responsive">
+                        <div class="card-body table-responsive">
+                          <p-table #requestsHistoryTable class="table-responsive" [value]="viewModel.requestsHistory">
+                                <ng-template pTemplate="header">
+                                   <tr>  
+                                     <th>{{'Text.ReferenceId' | translate}}</th>
+                                     <th>{{'Text.EmployeeEmail' | translate}}</th>
+                                     <th>{{'Text.ConsultantName' | translate}}</th> 
+                                     <th>{{'Text.ResearchTitle' | translate}}</th>
+                                     <th>{{'Text.ResearchTypeHeader' | translate}}</th>
+                                     <th>{{'Text.Status' | translate}}</th>
+                                   </tr>
+                                 </ng-template> 
+                                 <ng-template pTemplate="body" let-this.viewModel.requestsHistory let-i="rowIndex">
+                                   <tr>
+                                     <td>{{this.viewModel.requestsHistory[i].refId}}</td>
+                                     <td>{{this.viewModel.requestsHistory[i].employeeEmail}}</td>
+                                     <td>{{this.viewModel.requestsHistory[i].consultantName}}</td>
+                                     <td>{{this.viewModel.requestsHistory[i].researchTitle}}</td>
+                                     <td>{{this.viewModel.requestsHistory[i].researchTypeText}}</td>
+                                     <td>{{this.viewModel.requestsHistory[i].status}}</td>
+                                   </tr>
+                                 </ng-template>
+                                 <ng-template pTemplate="emptymessage">
+                                   <div style="width: 300px">
+        
+                                       {{'Message.Empty' | translate}}
+                                   </div>
+                               </ng-template>
+                             </p-table>
+                           </div>
+
+                      </div>
+                    </div>
+                   </div>
+  
+                 
+                    <div class="tab-pane" id="workflowHistory" [class.active]="viewModel.tabnumber==6" *ngIf="viewModel.item.domainModel.id">
+                      <app-workflow-history [jobID]="viewModel.jobId">
+                      </app-workflow-history>
+                    </div>
+  
+  
+  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       </form>
+      <app-workflow-decisions *ngIf="viewModel.jobId && !viewModel.isNewMode" [viewModel]="viewModel"
+        [decisions]="viewModel.item?.decisions">
+      </app-workflow-decisions>
+    </div>
+  </div>

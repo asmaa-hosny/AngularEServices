@@ -1,0 +1,285 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+        <div class="row">
+  
+  
+          <div class="col-lg-12 col-md-12">
+            <div class="card">
+              <div class="card-header card-header-tabs card-header-primary">
+                <div class="nav-tabs-navigation">
+                  <div class="nav-tabs-wrapper">
+                    <span class="nav-tabs-title"></span>
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                      <li class="nav-item">
+                        <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null)">
+                          <i class="material-icons">account_box</i> {{'Text.EmployeeDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#request" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null)">
+                          <i class="material-icons">library_books</i> {{'Text.RequestDetails' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link active" href="#evaluation" data-toggle="tab"
+                          [class.active]="viewModel.tabnumber==3" (click)="changeTab(3,null)">
+                          <i class="material-icons">library_books</i> {{'Text.ConsultantEvaluation' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+ 
+  
+  
+                      <li class="nav-item">
+                        <a mat-button class="nav-link" *ngIf="!viewModel.isNewMode"
+                          href="#workflowHistory" [class.active]="viewModel.tabnumber==4" data-toggle="tab"
+                          (click)="changeTab(4,null)">
+                          <i class="material-icons">history</i> {{'Text.WorkflowHistory' | translate}}
+                          <div class="ripple-container"></div>
+                        </a>
+                      </li>
+  
+  
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                    <profile-data [employee]="baseEmployee" *ngIf="baseEmployee">
+                    </profile-data>
+                  </div>
+                  <div class="tab-pane active" id="request" [class.active]="viewModel.tabnumber==2">
+                    <form #formReq="ngForm" novalidate>
+                      <div class="card">
+                        <div class="card-header">
+  
+                        </div>
+                        <div class="card-body table-responsive">
+                            <div class="form-row">
+                                <div class="col-md-4  ">
+                                  <label class="customlabel">{{'Text.ConsultationRequest' | translate}}</label>
+                                  <p-dropdown class="customddl" *ngIf="viewModel.consultationRequest" #consultationRequest="ngModel"  [options]="viewModel.consultationRequest"
+                              [(ngModel)]="viewModel.selectedRequest" name="selectedRequest" optionLabel="refId" [readonly]="!viewModel.isNewMode" [placeholder]="'Text.Select' | translate" 
+                               requiredIf editableIf [itemfields]="viewModel.fields" >
+                               <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && consultationRequest.invalid)">{{'Validation.Required' | translate}}</span>
+                            </p-dropdown>
+                                </div>
+                                <div class="col-md-4 offset-md-2 col-md-offset-2">
+                                  <label class="customlabel">{{'Text.ActualDeliverables' | translate}}</label>
+                                <textarea pInputTextarea class="form-control" rows="5" [(ngModel)]="viewModel.item.domainModel.actualDeliverables"
+                                  name="actualDeliverables" #actualDeliverables="ngModel" requiredIf editableIf
+                                  [itemfields]="viewModel.fields"></textarea>
+                                <span class="invalid-feedbackCS"
+                                  *ngIf="(viewModel.submitRequestForm && actualDeliverables.invalid)">{{'Validation.Required' | translate}}</span>
+                                  
+      
+                                </div>
+      
+                              </div>
+
+                              <div class="form-row">
+                                <div class="col-md-4  ">
+                                    <label class="customlabel">{{'Text.ActualDuration' | translate}}</label>
+                                    <input type="number" class="form-control" [(ngModel)]="viewModel.item.domainModel.actualDuration"
+                                    name="actualDuration" #actualDuration="ngModel" (input)="onChangeDuration($event.target.value)" requiredIf editableIf
+                                    [itemfields]="viewModel.fields"/>
+                                  <span class="invalid-feedbackCS"
+                                    *ngIf="(viewModel.submitRequestForm && actualDuration.invalid)">{{'Validation.Required' | translate}}</span>
+                                </div>
+                                <div class="col-md-4 offset-md-2 col-md-offset-2">
+                                  <label class="customlabel">{{'Text.ActualCost' | translate}}</label>
+                                  <strong class="form-control"  class="form-control" name ="actualCost"  read-only style="color: gray;">
+                                    {{viewModel.actualCost}}</strong>
+                                    
+                                      
+                                  </div></div>
+
+                                  <div class="form-row">
+
+                                    <div class="col-md-4  ">
+                                      <label class="customlabel">{{'Text.DurationNote' | translate}}</label>
+                                      <textarea pInputTextarea class="form-control" [(ngModel)]="viewModel.item.domainModel.durationNotes"
+                                        name="durationNote" #durationNote="ngModel" requiredIf editableIf
+                                        [itemfields]="viewModel.fields"></textarea>
+                                      <span class="invalid-feedbackCS"
+                                        *ngIf="(viewModel.submitRequestForm && durationNote.invalid)">{{'Validation.Required' | translate}}</span>
+                                      
+                                    </div> 
+                                  </div>
+                                    <div class="form-row">
+                                      <div>
+                                        <label class="customlabel">{{'Text.IsTerminated' | translate}}</label>
+                                        <p-checkbox  [(ngModel)]="viewModel.isTerminated" name="isTerminated" 
+                                         [disabled] ="!this.viewModel.isNewMode"
+                                          binary="true"></p-checkbox></div>
+                                        </div>
+
+                                        <div class="form-row" *ngIf="this.viewModel.isTerminated">
+                                          <div class="col-md-4">
+                                            <label class="customlabel">{{'Text.TerminationReason' | translate}}</label>
+                                           <textarea pInputTextarea class="form-control" rows="4" [(ngModel)]="viewModel.item.domainModel.terminationReason"
+                                           name="reason" #reason="ngModel" requiredIf editableIf
+                                           [itemfields]="viewModel.fields"></textarea>
+                                          </div>
+                                        
+                                        </div>
+
+                                    <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="viewModel.item.domainModel.refId">
+                                      <label class="customlabel">{{'Text.RefrenceID' | translate}}</label>
+            
+                                      <input type="text"  class="form-control" maxlength="50"
+                                        [(ngModel)]="viewModel.item.domainModel.refId" disabled name="refrenceID"
+                                        #refrenceID="ngModel" read-only />
+                              
+                                   </div>
+                                  
+                                
+                                    
+                           
+                  
+                         
+  
+                          <div class="col-md-12 col-xs-12 ">
+                            <div class="nextbutton">
+                              <button class="btn btn-primary btn-sm" type="button"
+                              (click)="changeTab(3,formReq)">{{'Button.Next' | translate}}<i class="material-icons">
+                                navigate_next
+                              </i></button>
+  
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="tab-pane active" id="evaluation" [class.active]="viewModel.tabnumber==3">
+                    <form #formReq="ngForm" novalidate>
+                      <div class="card">
+                        <div class="card-header">
+  
+                        </div>
+                        <div class="card-body table-responsive">
+                           
+                      
+                          <p-table #evaluationItemsTable  [value]="viewModel.evaluationItems">
+                            <ng-template pTemplate="header">
+                              <tr>
+
+
+                                <th>{{'Text.Question'| translate}}</th>
+                                <th>{{'Text.Answer'| translate}}</th>
+                                
+                    
+                              </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                              <tr>
+                              
+                                <td>
+                                  {{item.question}} 
+                                </td>
+                            
+                                <td pEditableColumn *ngIf="viewModel.isNewMode">
+                                  <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                      <p-dropdown [options]="viewModel.answers" *ngIf="viewModel.answers.length"  [(ngModel)]="item.answer" name="answer"
+                                        [style]="{'width':'100%'}" optionLabel="text" #answer="ngModel" [placeholder]="'Text.Select' | translate"></p-dropdown>
+                                     
+                                    </ng-template>        
+                                    <ng-template pTemplate="output">
+                                      {{item.answer?.text}} 
+                                      <!--<span class="invalid-feedbackCS"
+                                      *ngIf="(!item.answer)">{{'Validation.Required' | translate}}</span>-->
+                                    </ng-template>
+                                  </p-cellEditor>
+                                </td>
+
+                                 <td *ngIf="!viewModel.isNewMode">
+                                  {{item.answerText}} 
+                                </td>
+
+                              </tr>
+
+                              
+                            </ng-template>
+
+                            <ng-template pTemplate="footer" let-sale>
+                              <tr>
+                                  <td> <label class="customlabel">{{'Text.AdditionalComments' | translate}}</label></td>
+                                  <td><textarea pInputTextarea class="form-control" rows="4" [(ngModel)]="viewModel.comments"
+                                    name="comments" #comments="ngModel"  requiredIf editableIf
+                                    [itemfields]="viewModel.fields"></textarea></td>
+                              </tr>
+                              <tr>
+                                <td><label class="customlabel">{{'Text.OverallRating' | translate}}</label></td>
+                              <td> <p-rating styleClass="p-rating-star" [(ngModel)]="viewModel.rating" name="val" [cancel]="false"  ></p-rating></td>
+                            </tr>
+                      </ng-template>
+                        
+                          </p-table>
+
+                           <!-- <div class="form-row">
+                            <div class="col-md-4  ">
+                                <label class="customlabel">{{'Text.Comments' | translate}}</label>
+                                <textarea pInputTextarea class="form-control" rows="5" [(ngModel)]="viewModel.comments"
+                                name="comments" #comments="ngModel"  requiredIf editableIf
+                                [itemfields]="viewModel.fields"></textarea>
+                              
+                            </div></div>  -->
+
+                           <!-- <div class="form-row">
+                              <div class="col-md-4  ">
+
+                                <p-rating [(ngModel)]="val" name="val"></p-rating>
+
+
+                              </div></div>  -->
+                            
+                          <div class="col-md-12 col-xs-12 ">
+                            <div class="nextbutton">
+  
+                              <button class="btn btn-primary btn-sm btnColor" type="button" *ngIf="viewModel.isNewMode"
+                                (click)="submit(formReq)">{{'Button.Finish' | translate}}<i class="material-icons">
+                                  save_alt
+                                </i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  
+  
+                 
+                    <div class="tab-pane" id="workflowHistory" [class.active]="viewModel.tabnumber==4" *ngIf="viewModel.item.domainModel.id">
+                      <app-workflow-history [jobID]="viewModel.jobId">
+                      </app-workflow-history>
+                    </div>
+  
+  
+  
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+  
+          </div>
+      </form>
+      <app-workflow-decisions *ngIf="viewModel.jobId && !viewModel.isNewMode" [viewModel]="viewModel"
+        [decisions]="viewModel.item?.decisions">
+      </app-workflow-decisions>
+    </div>
+  
+  
+  </div>

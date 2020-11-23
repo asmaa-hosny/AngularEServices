@@ -1,0 +1,7 @@
+
+<ucp-english-Style *ngIf="isEnglish && isUCP"></ucp-english-Style>
+<english-Style *ngIf="isEnglish && !isUCP"></english-Style>
+<arabic-Style *ngIf="!isEnglish && !isUCP"></arabic-Style>
+<router-outlet></router-outlet>
+
+

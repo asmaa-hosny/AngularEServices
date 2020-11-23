@@ -1,0 +1,32 @@
+<div class="row justify-content-center mt-40">
+    <div class="col-lg-6 col-md-12 col-sm-12 ">
+
+        <ng-container *ngIf="decisions && decisions.length > 0" >
+            
+            <div *ngIf="locale.isEnglish" >
+                <button class="btn" [ngClass]="getClassName(item.textEN)" *ngFor="let item of decisions"
+                    (click)="showDialog(item)" [innerHTML]="item.textEN"></button> 
+                    <button class="btn" class="btn btn-dark" (click)="cancel()">{{'Button.Cancel' | translate}}</button></div>
+            <div *ngIf="!locale.isEnglish" style="
+            text-align: center!important;">
+                <button class="btn" [ngClass]="getClassName(item.textEN)" *ngFor="let item of decisions"
+                    (click)="showDialog(item)" [innerHTML]="item.textAR"></button>
+                    <button class="btn" class="btn btn-dark" (click)="cancel()">{{'Button.Cancel' | translate}}</button></div>
+           
+
+        </ng-container>
+    </div>
+</div>
+
+<p-dialog header="Process Request" [(visible)]="display" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <textarea pInputTextarea [(ngModel)]="item.comment" [rows]="5" name="comment" #commenttxt #comment="ngModel"
+        [cols]="30" autoResize="autoResize" [required]="required"></textarea>
+    <span class="invalid-feedbackCS"
+        *ngIf="(submitDialog && comment.invalid) || (comment.touched && comment.invalid)">{{'Validation.Required' | translate}}</span>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="submitAction()" label="Send"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="display=false" label="Cancel"
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>

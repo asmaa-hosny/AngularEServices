@@ -1,0 +1,41 @@
+<table class="table table-hover">
+    <thead class="text-warning">
+        <tr>
+            <th *ngFor="let col of colList">
+                {{'Text.'+ col.label | translate}}
+            </th>
+            <th *ngIf="displayAction"> {{'Text.Action' | translate}}</th>
+        </tr>
+
+
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of list">
+
+
+            <td *ngFor="let col of colList">
+
+                <a class="nav-link" *ngIf="col.name=='reF_ID' && row[col.name]" [routerLink]="" (click)="navigateTo(row)" data-toggle="tooltip"
+                    data-placement="top"> {{row[col.name]}}</a>
+                <a class="nav-link" *ngIf="col.name=='reF_ID' && row[col.name]==''" (click)="navigateTo(row)" data-toggle="tooltip"
+                    data-placement="top">{{'Text.NoRefID' | translate}}</a>
+                <!-- <span *ngIf="col.name!='reF_ID'"> {{row[col.name]}}</span> -->
+                <span *ngIf="col.name!='reF_ID' && !col.name.includes('from') && !col.name.includes('to')"> {{row[col.name]}}</span>
+                <span *ngIf="col.name.includes('from') || col.name.includes('to') ">{{utilityService.convertToLocalDate(row[col.name], false) }}</span>
+            </td>
+
+            <td *ngIf="displayAction" class="td-actions text-right">
+                <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'"
+                    class="btn btn-primary btn-link btn-sm btn-just-icon">
+                    <i class="material-icons">assignment_turned_in</i>
+                </button>
+                <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                    class="btn btn-danger btn-link btn-sm btn-just-icon">
+                    <i class="material-icons">cancel</i>
+                </button>
+            </td>
+
+        </tr>
+
+    </tbody>
+</table>

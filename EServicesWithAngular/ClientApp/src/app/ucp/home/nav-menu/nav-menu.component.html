@@ -1,0 +1,56 @@
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container navBarContainer">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+        aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- left side from navbar  -->
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]="{ show: isExpanded }">
+        <ul class="navbar-nav flex-grow navbarPosition">
+
+
+          <!-- Shared Links between all  -->
+          <li class="nav-item" [routerLinkActive]="['link-active']" (dblclick)="closeMenu()">
+            <a class="nav-link text-dark" routerLink="/ucp/fellow/all-fellow">{{'UCP.AllFellows' | translate}}</a>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']" (dblclick)="closeMenu()">
+            <a class="nav-link text-dark" routerLink="/ucp/eric/all-eric">{{'UCP.AllErics' | translate}}</a>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']" (dblclick)="closeMenu()">
+            <a class="nav-link text-dark" routerLink="">{{'UCP.AllStudents' | translate}}</a>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']" (dblclick)="closeMenu()">
+            <a class="nav-link text-dark" routerLink="/afe/publication">{{'UCP.Publication' | translate}}</a>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']" (dblclick)="closeMenu()">
+            <a class="nav-link text-dark" routerLink="/afe/consultations">{{'UCP.Consultations' | translate}}</a>
+          </li>
+
+
+        </ul>
+      </div>
+
+      <!-- rightLinks from navbar  -->
+
+
+      <!-- profile image for profile meun -->
+      <div class="profile-menu">
+        <a href="javascript:0" #toggleBoxProfile>
+          <div class="small-profile-picture charProfile">
+            <span>Eman</span>
+          </div>
+        </a>
+      </div>
+
+
+
+
+    </div>
+
+  </nav>
+</header>

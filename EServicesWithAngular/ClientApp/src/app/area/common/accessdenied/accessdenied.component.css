@@ -1,0 +1,16 @@
+.accessDenied{
+    position: inherit;
+    margin-top: 32vh;
+    color:#8d1818;
+  }
+  
+  .accessDenied h2 {
+    font-family: initial;
+    }
+
+    .reset{
+        font-family: sans-serif;
+        font-size: .89rem;
+        color: #1f4085;
+        margin-bottom: 1.2rem;
+      }

@@ -1,0 +1,94 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="NewFolder\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <None Remove="NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.5.0" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.2" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.5.3" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <HintPath>..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.viewfeatures\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http">
+      <HintPath>..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.http\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Client.Policy.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.Office.Client.Policy.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Client.TranslationServices.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.Office.Client.TranslationServices.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ProjectServer.Client.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.ProjectServer.Client.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.DocumentManagement.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.DocumentManagement.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Portable">
+      <HintPath>..\..\SharepointHelper\SharePointHelpClasses\bin\Debug\Microsoft.SharePoint.Client.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Sharepoint.Client.Publishing.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.Publishing.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime.Portable">
+      <HintPath>..\..\SharepointHelper\SharePointHelpClasses\bin\Debug\Microsoft.SharePoint.Client.Runtime.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime.Windows">
+      <HintPath>..\..\SharepointHelper\SharePointHelpClasses\bin\Debug\Microsoft.SharePoint.Client.Runtime.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Runtime.WindowsStore">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.Runtime.WindowsStore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Search.Applications.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.Search.Applications.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Search.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.Search.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.Taxonomy.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.Taxonomy.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.UserProfiles.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.UserProfiles.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SharePoint.Client.WorkflowServices.Portable">
+      <HintPath>..\..\..\Users\e.shaaban.c\.nuget\packages\microsoft.sharepointonline.csom\16.1.8924.1200\lib\netcore45\Microsoft.SharePoint.Client.WorkflowServices.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="SharePointHelpClasses">
+      <HintPath>..\..\SharepointHelper\SharePointHelpClasses\bin\Debug\SharePointHelpClasses.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <HintPath>..\..\..\Windows\Microsoft.NET\Framework\v2.0.50727\System.Web.Services.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+{
+  "Serilog": {
+    "MinimumLevel": "Debug",
+    "Enrich": [ "FromLogContext" ],
+    "WriteTo": [
+      {
+        "Name": "RollingFile",
+        "Args": {
+          "RollingInterval": "Day",
+          "pathFormat": "Logs/log-{Date}.txt",
+          "outputTemplate": "{NewLine}CorrelationId: {CorrelationId} {NewLine}MethodName: {MethodName} {NewLine}Date: {Timestamp:yyyy-MM-dd HH:mm:ss} {NewLine}Level: [{Level}] {NewLine}Message: {Message}{NewLine}Properties: {Properties} {NewLine}Exception: {Exception}{NewLine}------------------------------------------------------"
+        }
+      }
+    ]
+    //"WriteTo": [
+    //  {
+    //    "Name": "MSSqlServer",
+    //    "Args": {
+    //      "connectionString": "Server=.;Database=ApplicationsLogs;User ID=Admin;Password=Aa123456;Trusted_Connection=True;MultipleActiveResultSets=true",
+    //      "tableName": "Log"
+    //    }
+    //  }
+    //]
+  }
+}

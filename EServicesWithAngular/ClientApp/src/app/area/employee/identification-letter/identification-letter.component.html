@@ -1,0 +1,133 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <form #requestForm="ngForm" class="needs-validation" name="requestForm" novalidate>
+      <div class="row">
+
+
+        <div class="col-lg-12 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-tabs card-header-primary">
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <span class="nav-tabs-title"></span>
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="nav-item">
+                      <a mat-button class="nav-link" href="#empProfile" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==1" (click)="changeTab(1,null)">
+                        <i class="material-icons">account_box</i> {{'Text.EmployeeDetails' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a mat-button class="nav-link active" href="#request" data-toggle="tab"
+                        [class.active]="viewModel.tabnumber==2" (click)="changeTab(2,null)">
+                        <i class="material-icons">library_books</i> {{'Text.IdentificationRequest' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+
+                    <li class="nav-item">
+                      <a mat-button class="nav-link" *ngIf="viewModel.jobId && !viewModel.isNewMode"
+                        href="#workflowHistory" [class.active]="viewModel.tabnumber==3" data-toggle="tab"
+                        (click)="changeTab(3,null)">
+                        <i class="material-icons">history</i> {{'Text.WorkflowHistory' | translate}}
+                        <div class="ripple-container"></div>
+                      </a>
+                    </li>
+
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane" id="empProfile" [class.active]="viewModel.tabnumber==1">
+                  <profile-data [employee]="viewModel">
+                  </profile-data>
+                </div>
+                <div class="tab-pane active" id="request" [class.active]="viewModel.tabnumber==2">
+
+                  <div class="card">
+                    <div class="card-header ">
+
+                    </div>
+                    <div class="card-body table-responsive">
+                      <div class="form-row ">
+                        <div class="form-group col-md-4">
+
+                          <label class="customlabel">{{'Text.SignatureType' | translate}}</label>
+                          <p-dropdown class="customddl" #signatureType="ngModel" [options]="viewModel.signatureTypes"
+                            name="signatureType" [(ngModel)]="viewModel.selectedsignatureType"
+                            placeholder="{{'Text.Select' | translate}}" optionLabel="text" filter="true" requiredIf
+                            editableIf [itemfields]="viewModel.fields">
+                          </p-dropdown>
+                          <span class="invalid-feedbackCS"
+                            *ngIf="(viewModel.submitRequestForm && signatureType.invalid) || (signatureType.touched && signatureType.invalid)">{{'Validation.Required' | translate}}</span>
+
+                        </div>
+
+
+                        <div class="col-md-4 offset-md-2 col-md-offset-2 ">
+                          <label class="customlabel">{{'Text.LetterType' | translate}}</label>
+                          <p-dropdown class="customddl" #requestType="ngModel" [options]="viewModel.requestTypes"
+                            name="requestType" [(ngModel)]="viewModel.selectedRequestType"
+                            placeholder="{{'Text.Select' | translate}}" optionLabel="text" filter="true" requiredIf
+                            editableIf [itemfields]="viewModel.fields">
+                          </p-dropdown>
+                          <span class="invalid-feedbackCS"
+                            *ngIf="(viewModel.submitRequestForm && requestType.invalid) || (requestType.touched && requestType.invalid)">{{'Validation.Required' | translate}}</span>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="col-md-4 offset-md-2 col-md-offset-2" *ngIf="viewModel.item.domainModel.reF_ID">
+                          <label class="customlabel">{{'Text.RefrenceID' | translate}}</label>
+
+                          <input type="text" class="form-control" class="form-control" maxlength="50"
+                            [(ngModel)]="viewModel.item.domainModel.reF_ID" disabled name="refrenceID"
+                            #refrenceID="ngModel" read-only />
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 col-xs-12 ">
+                        <div class="nextbutton">
+
+
+                          <button class="btn btn-primary btn-sm" type="button" *ngIf="viewModel.isNewMode"
+                            (click)="submit(requestForm)">{{'Button.Finish' | translate}}<i class="material-icons">
+                              save_alt
+                            </i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+                <div class="tab-pane" id="workflowHistory" [class.active]="viewModel.tabnumber==3">
+                  <app-workflow-history [jobID]="viewModel.jobId">
+                  </app-workflow-history>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+    <app-workflow-decisions *ngIf="viewModel.jobId && !viewModel.isNewMode" [viewModel]="viewModel"
+      [decisions]="viewModel.item?.decisions">
+    </app-workflow-decisions>
+  </div>
+
+
+</div>
