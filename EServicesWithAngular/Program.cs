@@ -11,7 +11,7 @@ namespace EServicesWithAngular
     {
         public static void Main(string[] args)
         {   
-            
+            //
             AppContext.SetSwitch("System.Net.Http.UseSocketsHttpHandler", false);
             CreateWebHostBuilder(args).UseSerilog().Build().Run();
         }
